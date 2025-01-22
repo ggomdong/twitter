@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/features/authentication/create_screen.dart';
+import 'package:twitter/features/authentication/customize_screen.dart';
 import 'package:twitter/features/authentication/sign_up_screen.dart';
 
 void main() {
@@ -65,7 +67,7 @@ class App extends StatelessWidget {
           color: Colors.grey.shade900,
         ),
       ),
-      home: const SignUpScreen(),
+      home: const CustomizeScreen(),
     );
   }
 }

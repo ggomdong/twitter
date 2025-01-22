@@ -31,6 +31,7 @@ class SignUpScreen extends StatelessWidget {
     final bool isDark = isDarkMode(context);
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: FaIcon(
           FontAwesomeIcons.twitter,
           size: Sizes.size32,

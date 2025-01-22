@@ -21,6 +21,8 @@ class _CreateScreenState extends State<CreateScreen> {
   String _email = "";
   DateTime initialDate = DateTime.now();
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -36,8 +38,6 @@ class _CreateScreenState extends State<CreateScreen> {
         _email = _emailController.text;
       });
     });
-
-    _setTextFieldDate(initialDate);
   }
 
   @override
@@ -46,6 +46,10 @@ class _CreateScreenState extends State<CreateScreen> {
     _emailController.dispose();
     _birthdayController.dispose();
     super.dispose();
+  }
+
+  void _onBackTap() {
+    Navigator.of(context).pop();
   }
 
   String? _isEmailValid() {
@@ -83,21 +87,25 @@ class _CreateScreenState extends State<CreateScreen> {
       onTap: _onScaffoldTap,
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: FaIcon(
             FontAwesomeIcons.twitter,
             size: Sizes.size32,
             color: Theme.of(context).primaryColor,
           ),
           leadingWidth: 100,
-          leading: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size16,
-              vertical: Sizes.size16,
-            ),
-            child: Text(
-              "Cancel",
-              style: TextStyle(
-                fontSize: Sizes.size20,
+          leading: GestureDetector(
+            onTap: _onBackTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.size16,
+                vertical: Sizes.size16,
+              ),
+              child: Text(
+                "Cancel",
+                style: TextStyle(
+                  fontSize: Sizes.size20,
+                ),
               ),
             ),
           ),
@@ -110,14 +118,16 @@ class _CreateScreenState extends State<CreateScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Gaps.v20,
-              Text("Create your account",
-                  style: TextStyle(
-                    fontSize: Sizes.size24,
-                  )),
-              TextField(
-                controller: _usernameController,
+              Text(
+                "Create your account",
+                style: TextStyle(
+                  fontSize: Sizes.size28 + Sizes.size2,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              TextFormField(
                 decoration: InputDecoration(
-                  hintText: "Name",
+                  labelText: "Names",
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.grey.shade400,
@@ -131,13 +141,13 @@ class _CreateScreenState extends State<CreateScreen> {
                 ),
                 cursorColor: Theme.of(context).primaryColor,
               ),
-              TextField(
-                controller: _emailController,
+              TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 onEditingComplete: _onSubmit,
                 autocorrect: false,
                 decoration: InputDecoration(
-                  hintText: "Phone number or email address",
+                  helperText: "Phone number or email address",
+                  labelText: "Email",
                   errorText: _isEmailValid(),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
@@ -152,11 +162,10 @@ class _CreateScreenState extends State<CreateScreen> {
                 ),
                 cursorColor: Theme.of(context).primaryColor,
               ),
-              TextField(
+              TextFormField(
                 enabled: false,
-                controller: _birthdayController,
                 decoration: InputDecoration(
-                  hintText: "Date of birth",
+                  labelText: "Date of birth",
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.grey.shade400,
@@ -173,15 +182,31 @@ class _CreateScreenState extends State<CreateScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: SizedBox(
-          height: 300,
-          child: CupertinoDatePicker(
-            maximumDate: initialDate,
-            initialDateTime: initialDate,
-            mode: CupertinoDatePickerMode.date,
-            onDateTimeChanged: _setTextFieldDate,
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Sizes.size96,
+            vertical: Sizes.size96,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Colors.grey.shade400,
+                width: 1,
+              ),
+            ),
+            child: Text("Next"),
           ),
         ),
+        // bottomNavigationBar: SizedBox(
+        //   height: 300,
+        //   child: CupertinoDatePicker(
+        //     maximumDate: initialDate,
+        //     initialDateTime: initialDate,
+        //     mode: CupertinoDatePickerMode.date,
+        //     onDateTimeChanged: _setTextFieldDate,
+        //   ),
+        // ),
       ),
     );
   }
