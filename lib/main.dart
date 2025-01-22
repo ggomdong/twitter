@@ -67,7 +67,7 @@ class App extends StatelessWidget {
           color: Colors.grey.shade900,
         ),
       ),
-      home: const CustomizeScreen(),
+      home: const SignUpScreen(),
     );
   }
 }

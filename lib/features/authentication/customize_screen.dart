@@ -2,16 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/features/authentication/confirm_screen.dart';
+import 'package:twitter/features/authentication/create_screen.dart';
+import 'package:twitter/features/authentication/widgets/form_button.dart';
 import 'package:twitter/utils.dart';
 
-class CustomizeScreen extends StatelessWidget {
-  const CustomizeScreen({super.key});
+class CustomizeScreen extends StatefulWidget {
+  const CustomizeScreen({
+    super.key,
+    required this.name,
+    required this.email,
+    required this.birthday,
+  });
 
-  void _onConfirmTap(BuildContext context) {
+  final String name, email, birthday;
+
+  @override
+  State<CustomizeScreen> createState() => _CustomizeScreenState();
+}
+
+class _CustomizeScreenState extends State<CustomizeScreen> {
+  bool _notifications = false;
+
+  void _onNotificationsChanged(bool? newValue) {
+    if (newValue == null) return;
+    setState(() {
+      _notifications = newValue;
+    });
+  }
+
+  void _onBackTap() {
+    Navigator.of(context).pop();
+  }
+
+  void _onConfirmTap() {
+    if (!_notifications) return;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ConfirmScreen(),
+        builder: (context) => CreateScreen(
+          name: widget.name,
+          email: widget.email,
+          birthday: widget.birthday,
+          isSignup: true,
+        ),
       ),
     );
   }
@@ -27,6 +59,11 @@ class CustomizeScreen extends StatelessWidget {
           size: Sizes.size32,
           color: Theme.of(context).primaryColor,
         ),
+        leadingWidth: Sizes.size40,
+        leading: GestureDetector(
+          onTap: _onBackTap,
+          child: Icon(Icons.arrow_back),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -35,50 +72,52 @@ class CustomizeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Gaps.v20,
-            FractionallySizedBox(
-              widthFactor: 0.7,
-              child: Text(
-                "Customize your experience",
-                style: TextStyle(
-                  fontSize: Sizes.size28 + Sizes.size2,
-                  fontWeight: FontWeight.w900,
-                ),
+            Gaps.v12,
+            Text(
+              "Customize your experience",
+              style: TextStyle(
+                fontSize: Sizes.size28,
+                fontWeight: FontWeight.w900,
               ),
             ),
             Gaps.v20,
-            FractionallySizedBox(
-              widthFactor: 0.7,
-              child: Text(
-                "Track where you see Twitter content across the web",
-                style: TextStyle(
-                  fontSize: Sizes.size20,
-                  fontWeight: FontWeight.w900,
-                ),
+            Text(
+              "Track where you see Twitter content across the web",
+              style: TextStyle(
+                fontSize: Sizes.size20,
+                fontWeight: FontWeight.w800,
               ),
             ),
-            Gaps.v20,
+            Gaps.v12,
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
+                  flex: 8,
                   child: Text(
-                    "Twitter uses this data to personalize your experience. This web browsing history will never be stored with your name, email, or, phone number.",
+                    "Twitter uses this data to personalize your experience. This web browsing history will never be stored with your name, email, or phone number.",
                     style: TextStyle(
-                      fontSize: Sizes.size16,
-                      fontWeight: FontWeight.w900,
+                      fontSize: Sizes.size16 + Sizes.size1,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-                Text("switch"),
+                Flexible(
+                  flex: 2,
+                  child: Switch.adaptive(
+                    value: _notifications,
+                    onChanged: _onNotificationsChanged,
+                  ),
+                ),
               ],
             ),
-            Gaps.v20,
+            Gaps.v28,
             RichText(
               text: TextSpan(
                 text: "By signing up, you agree to our",
                 style: TextStyle(
                   color: isDark ? null : Colors.grey.shade800,
-                  fontSize: Sizes.size16 + Sizes.size1,
+                  fontSize: Sizes.size14 + Sizes.size1,
                 ),
                 children: [
                   TextSpan(
@@ -119,7 +158,7 @@ class CustomizeScreen extends StatelessWidget {
                   ),
                   TextSpan(
                     text:
-                        " Twitter may use your contact information, including your email address and phone number for purchase outlined in our Privacy Policy.",
+                        " Twitter may use your contact information, including your email address and phone number for purposes outlined in our Privacy Policy.",
                     style: TextStyle(
                       color: isDark ? null : Colors.grey.shade800,
                     ),
@@ -128,7 +167,6 @@ class CustomizeScreen extends StatelessWidget {
                     text: " Learn more",
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
-                      fontSize: Sizes.size14,
                     ),
                   ),
                 ],
@@ -137,34 +175,18 @@ class CustomizeScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            bottom: Sizes.size40,
-            top: Sizes.size16,
-            left: Sizes.size32,
-            right: Sizes.size32,
-          ),
-          child: GestureDetector(
-            onTap: () => _onConfirmTap(context),
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: Sizes.size20,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: isDark ? Colors.white : Colors.black,
-              ),
-              child: const Text(
-                'Next',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: Sizes.size16,
-                ),
-              ),
-            ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(
+          bottom: Sizes.size52,
+          top: Sizes.size16,
+          left: Sizes.size32,
+          right: Sizes.size32,
+        ),
+        child: GestureDetector(
+          onTap: _onConfirmTap,
+          child: FormButton(
+            disabled: !_notifications,
+            text: "Next",
           ),
         ),
       ),

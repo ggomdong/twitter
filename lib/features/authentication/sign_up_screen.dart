@@ -13,7 +13,12 @@ class SignUpScreen extends StatelessWidget {
   void _onCreateTap(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const CreateScreen(),
+        builder: (context) => const CreateScreen(
+          name: "",
+          email: "",
+          birthday: "",
+          isSignup: false,
+        ),
       ),
     );
   }
