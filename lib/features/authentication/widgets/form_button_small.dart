@@ -3,12 +3,14 @@ import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/utils.dart';
 
 class FormButtonSmall extends StatelessWidget {
-  const FormButtonSmall({
+  FormButtonSmall({
     super.key,
     required this.disabled,
+    required this.text,
   });
 
   final bool disabled;
+  String text;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class FormButtonSmall extends StatelessWidget {
       ),
       duration: const Duration(milliseconds: 500),
       child: Text(
-        "Next",
+        text,
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: Sizes.size16,

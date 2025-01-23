@@ -5,6 +5,7 @@ import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/create_screen.dart';
 import 'package:twitter/features/authentication/login_screen.dart';
 import 'package:twitter/features/authentication/widgets/auth_button.dart';
+import 'package:twitter/features/common/common_app_bar.dart';
 import 'package:twitter/utils.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -35,14 +36,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isDark = isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: FaIcon(
-          FontAwesomeIcons.twitter,
-          size: Sizes.size32,
-          color: Theme.of(context).primaryColor,
-        ),
-      ),
+      appBar: CommonAppBar(type: LeadingType.none),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: Sizes.size32,

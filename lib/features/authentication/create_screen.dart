@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/features/authentication/otp_screen.dart';
 import 'package:twitter/features/authentication/customize_screen.dart';
 import 'package:twitter/features/authentication/widgets/form_button.dart';
 import 'package:twitter/features/authentication/widgets/form_button_small.dart';
+import 'package:twitter/features/common/common_app_bar.dart';
 import 'package:twitter/utils.dart';
 
 class CreateScreen extends StatefulWidget {
@@ -115,6 +117,19 @@ class _CreateScreenState extends State<CreateScreen> {
     );
   }
 
+  void _onConfirmTab() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OtpScreen(
+          name: _name,
+          email: _email,
+          birthday: _birthdayController.text,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -123,34 +138,8 @@ class _CreateScreenState extends State<CreateScreen> {
       onTap: _onScaffoldTap,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          centerTitle: true,
-          title: FaIcon(
-            FontAwesomeIcons.twitter,
-            size: Sizes.size32,
-            color: Theme.of(context).primaryColor,
-          ),
-          leadingWidth: widget.isSignup ? 40 : 100,
-          leading: widget.isSignup
-              ? GestureDetector(
-                  onTap: _onBackTap,
-                  child: Icon(Icons.arrow_back),
-                )
-              : GestureDetector(
-                  onTap: _onBackTap,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Sizes.size16,
-                      vertical: Sizes.size16,
-                    ),
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                        fontSize: Sizes.size20,
-                      ),
-                    ),
-                  ),
-                ),
+        appBar: CommonAppBar(
+          type: widget.isSignup ? LeadingType.arrow : LeadingType.cancel,
         ),
         body: Stack(
           children: [
@@ -405,6 +394,7 @@ class _CreateScreenState extends State<CreateScreen> {
                     disabled: !(_name.isNotEmpty &&
                         _isEmailValid() &&
                         _birthdayController.text.isNotEmpty),
+                    text: "Next",
                   ),
                 ),
               ),
@@ -432,23 +422,26 @@ class _CreateScreenState extends State<CreateScreen> {
                   left: Sizes.size32,
                   right: Sizes.size32,
                 ),
-                child: FractionallySizedBox(
-                  widthFactor: 1,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: Sizes.size16,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Sizes.size32),
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    child: Text(
-                      "Sign up",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: Sizes.size18,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
+                child: GestureDetector(
+                  onTap: _onConfirmTab,
+                  child: FractionallySizedBox(
+                    widthFactor: 1,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: Sizes.size16,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(Sizes.size32),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      child: Text(
+                        "Sign up",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: Sizes.size18,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),

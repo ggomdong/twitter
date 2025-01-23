@@ -4,6 +4,7 @@ import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/create_screen.dart';
 import 'package:twitter/features/authentication/widgets/form_button.dart';
+import 'package:twitter/features/common/common_app_bar.dart';
 import 'package:twitter/utils.dart';
 
 class CustomizeScreen extends StatefulWidget {
@@ -52,19 +53,7 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
   Widget build(BuildContext context) {
     final bool isDark = isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: FaIcon(
-          FontAwesomeIcons.twitter,
-          size: Sizes.size32,
-          color: Theme.of(context).primaryColor,
-        ),
-        leadingWidth: Sizes.size40,
-        leading: GestureDetector(
-          onTap: _onBackTap,
-          child: Icon(Icons.arrow_back),
-        ),
-      ),
+      appBar: CommonAppBar(type: LeadingType.arrow),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: Sizes.size32,
