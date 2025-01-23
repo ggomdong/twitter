@@ -59,7 +59,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonAppBar(type: LeadingType.none),
-      body: Stack(
+      body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -86,37 +86,30 @@ class _InterestsScreenState extends State<InterestsScreen> {
                     color: Colors.grey.shade800,
                   ),
                 ),
-                Gaps.v24,
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  color: Colors.grey.shade200,
-                ),
-                Gaps.v40,
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Wrap(
-                      runSpacing: Sizes.size10,
-                      spacing: Sizes.size10,
-                      children: [
-                        for (var interest in interests)
-                          InterestButton(
-                            interest: interest,
-                          )
-                      ],
-                    ),
-                  ),
-                )
               ],
             ),
           ),
-          Positioned(
-            child: Container(
-              height: 1,
-              width: double.infinity,
-              color: Colors.grey.shade200,
-            ),
+          Gaps.v20,
+          Container(
+            height: 1,
+            width: double.infinity,
+            color: Colors.grey.shade200,
           ),
+          Gaps.v40,
+          Expanded(
+            child: SingleChildScrollView(
+              child: Wrap(
+                runSpacing: Sizes.size10,
+                spacing: Sizes.size10,
+                children: [
+                  for (var interest in interests)
+                    InterestButton(
+                      interest: interest,
+                    )
+                ],
+              ),
+            ),
+          )
         ],
       ),
       bottomNavigationBar: Container(
