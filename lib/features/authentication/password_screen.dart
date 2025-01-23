@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
@@ -48,11 +47,12 @@ class _PasswordScreenState extends State<PasswordScreen> {
 
   void _onSubmit() {
     if (!_isPasswordValid()) return;
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (context) => const InterestsScreen(),
       ),
+      (route) => false,
     );
   }
 
@@ -91,11 +91,11 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 "Make sure it's 8 characters or more.",
                 style: TextStyle(
                   fontSize: Sizes.size16,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   color: Colors.grey.shade600,
                 ),
               ),
-              Gaps.v36,
+              Gaps.v28,
               TextField(
                 controller: _passwordController,
                 onEditingComplete: _onSubmit,
@@ -152,6 +152,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 ),
                 cursorColor: Theme.of(context).primaryColor,
               ),
+              Gaps.v96,
               Gaps.v96,
               GestureDetector(
                 onTap: _onSubmit,

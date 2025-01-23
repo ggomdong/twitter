@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/features/authentication/widgets/form_button_small.dart';
 import 'package:twitter/features/common/common_app_bar.dart';
 import 'package:twitter/features/onboarding/widgets/interest_button.dart';
 import 'package:twitter/utils.dart';
@@ -58,53 +59,65 @@ class _InterestsScreenState extends State<InterestsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonAppBar(type: LeadingType.none),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Sizes.size32,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Gaps.v12,
-            const Text(
-              "What do you want to see on Twitter?",
-              style: TextStyle(
-                fontSize: Sizes.size28,
-                fontWeight: FontWeight.w900,
-              ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.size32,
             ),
-            Gaps.v20,
-            Text(
-              "Select at least 3 interests to personalize your Twitter experience. They will be visible on your profile.",
-              style: TextStyle(
-                fontSize: Sizes.size18,
-                fontWeight: FontWeight.w400,
-                color: Colors.grey.shade600,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Gaps.v12,
+                const Text(
+                  "What do you want to see on Twitter?",
+                  style: TextStyle(
+                    letterSpacing: -1,
+                    fontSize: Sizes.size28,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                Gaps.v16,
+                Text(
+                  "Select at least 3 interests to personalize your Twitter experience. They will be visible on your profile.",
+                  style: TextStyle(
+                    fontSize: Sizes.size16,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.grey.shade800,
+                  ),
+                ),
+                Gaps.v24,
+                Container(
+                  height: 1,
+                  width: double.infinity,
+                  color: Colors.grey.shade200,
+                ),
+                Gaps.v40,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      runSpacing: Sizes.size10,
+                      spacing: Sizes.size10,
+                      children: [
+                        for (var interest in interests)
+                          InterestButton(
+                            interest: interest,
+                          )
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
-            Gaps.v20,
-            Container(
+          ),
+          Positioned(
+            child: Container(
               height: 1,
               width: double.infinity,
               color: Colors.grey.shade200,
             ),
-            Gaps.v20,
-            Expanded(
-              child: SingleChildScrollView(
-                child: Wrap(
-                  runSpacing: Sizes.size10,
-                  spacing: Sizes.size10,
-                  children: [
-                    for (var interest in interests)
-                      InterestButton(
-                        interest: interest,
-                      )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: Container(
         child: Padding(
@@ -121,15 +134,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
             ),
-            child: const Text(
-              'Next',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontSize: Sizes.size16,
-              ),
-            ),
+            child: FormButtonSmall(disabled: true, text: "Next"),
           ),
         ),
       ),

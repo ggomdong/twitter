@@ -45,13 +45,14 @@ class _OtpScreenState extends State<OtpScreen> {
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
         maxLength: 1,
+        showCursor: false,
         style: TextStyle(
-          fontSize: Sizes.size32,
-          fontWeight: FontWeight.w900,
+          fontSize: Sizes.size28,
+          fontWeight: FontWeight.w800,
         ),
         decoration: InputDecoration(
           counterText: "", // 하단의 글자 수 표시 제거
-          contentPadding: EdgeInsets.only(bottom: Sizes.size20),
+          contentPadding: EdgeInsets.only(bottom: Sizes.size18),
           border: UnderlineInputBorder(),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
@@ -95,10 +96,6 @@ class _OtpScreenState extends State<OtpScreen> {
     FocusScope.of(context).unfocus();
   }
 
-  void _onBackTap() {
-    Navigator.of(context).pop();
-  }
-
   void _onPasswordTap() {
     if (!_isOtpCompleted) return;
     Navigator.of(context).pushAndRemoveUntil(
@@ -140,7 +137,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       "Enter it below to verify",
                       style: TextStyle(
                         fontSize: Sizes.size16,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: Colors.grey.shade600,
                       ),
                     ),
@@ -148,7 +145,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       "${widget.email}.",
                       style: TextStyle(
                         fontSize: Sizes.size16,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: Colors.grey.shade600,
                       ),
                     ),
@@ -171,14 +168,6 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                       ),
                     Gaps.v80,
-                    Text(
-                      "Didn't receive email?",
-                      style: TextStyle(
-                        fontSize: Sizes.size16,
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -193,12 +182,26 @@ class _OtpScreenState extends State<OtpScreen> {
                   left: Sizes.size32,
                   right: Sizes.size32,
                 ),
-                child: GestureDetector(
-                  onTap: _onPasswordTap,
-                  child: FormButton(
-                    disabled: !_isOtpCompleted,
-                    text: "Next",
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Didn't receive email?",
+                      style: TextStyle(
+                        fontSize: Sizes.size16,
+                        fontWeight: FontWeight.normal,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    Gaps.v14,
+                    GestureDetector(
+                      onTap: _onPasswordTap,
+                      child: FormButton(
+                        disabled: !_isOtpCompleted,
+                        text: "Next",
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

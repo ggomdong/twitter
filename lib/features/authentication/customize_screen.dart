@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/create_screen.dart';
@@ -29,10 +28,6 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
     setState(() {
       _notifications = newValue;
     });
-  }
-
-  void _onBackTap() {
-    Navigator.of(context).pop();
   }
 
   void _onConfirmTap() {

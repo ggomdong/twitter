@@ -68,12 +68,12 @@ class App extends StatelessWidget {
           color: Colors.grey.shade900,
         ),
       ),
-      // home: const OtpScreen(
-      //   name: "ggom",
-      //   email: "ggomdong@naver.com",
-      //   birthday: "2025-01-22",
-      // ),
-      home: const InterestsScreen(),
+      home: const OtpScreen(
+        name: "ggom",
+        email: "ggomdong@naver.com",
+        birthday: "2025-01-22",
+      ),
+      // home: const InterestsScreen(),
     );
   }
 }

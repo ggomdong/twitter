@@ -5,7 +5,6 @@ import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/otp_screen.dart';
 import 'package:twitter/features/authentication/customize_screen.dart';
-import 'package:twitter/features/authentication/widgets/form_button.dart';
 import 'package:twitter/features/authentication/widgets/form_button_small.dart';
 import 'package:twitter/features/common/common_app_bar.dart';
 import 'package:twitter/utils.dart';
@@ -70,10 +69,6 @@ class _CreateScreenState extends State<CreateScreen> {
 
   void _onScaffoldTap() {
     FocusScope.of(context).unfocus();
-  }
-
-  void _onBackTap() {
-    Navigator.of(context).pop();
   }
 
   bool _isEmailValid() {
