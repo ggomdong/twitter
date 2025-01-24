@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/utils.dart';
 
 class InterestButton extends StatelessWidget {
   const InterestButton({
@@ -17,6 +18,7 @@ class InterestButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final isDark = isDarkMode(context);
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -24,12 +26,16 @@ class InterestButton extends StatelessWidget {
         height: Sizes.size80 + Sizes.size2,
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          color: isSelected ? Theme.of(context).primaryColor : Colors.white,
+          color: isSelected
+              ? Theme.of(context).primaryColor
+              : isDark
+                  ? Colors.black
+                  : Colors.white,
           borderRadius: BorderRadius.circular(
             Sizes.size10,
           ),
           border: Border.all(
-            color: Colors.black.withValues(alpha: 0.2),
+            color: isDark ? Colors.white : Colors.black.withValues(alpha: 0.2),
           ),
         ),
         child: Stack(
@@ -43,7 +49,11 @@ class InterestButton extends StatelessWidget {
                 style: TextStyle(
                     fontSize: Sizes.size16,
                     fontWeight: FontWeight.bold,
-                    color: isSelected ? Colors.white : Colors.black87),
+                    color: isSelected
+                        ? Colors.white
+                        : isDark
+                            ? Colors.white
+                            : Colors.black87),
               ),
             ),
             Positioned(

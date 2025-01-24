@@ -26,13 +26,29 @@ class _OtpScreenState extends State<OtpScreen> {
   final List<String?> _otpValues =
       List.generate(6, (_) => null); // 각 필드의 값을 저장할 리스트
 
+  // code 입력 완료 유무
   bool _isOtpCompleted = false;
+  // 올바른 code 유무
+  bool _isInvalidOtp = false;
 
   void _handleSubmit() {
     if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save(); // 각 TextFormField의 onSaved 호출
-      final String otpCode = _otpValues.join(); // 리스트를 문자열로 합치기
-      _isOtpCompleted = true;
+      // 각 TextFormField의 onSaved 호출
+      _formKey.currentState!.save();
+      // 리스트를 문자열로 합치기
+      final String otpCode = _otpValues.join();
+      // 전송된 코드값
+      final String rightCode = '250126';
+
+      if (otpCode == rightCode) {
+        _isOtpCompleted = true;
+        _isInvalidOtp = false;
+      } else {
+        _isOtpCompleted = false;
+        _isInvalidOtp = true;
+
+        _formKey.currentState!.reset();
+      }
       setState(() {});
 
       /// TODO: 서버 연계시 _otpCode 전송 필요
@@ -59,13 +75,15 @@ class _OtpScreenState extends State<OtpScreen> {
           border: UnderlineInputBorder(),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.black,
+              color: isDarkMode(context) ? Colors.white : Colors.black,
               width: 3,
             ),
           ),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.grey.shade300,
+              color: isDarkMode(context)
+                  ? Colors.grey.shade800
+                  : Colors.grey.shade300,
               width: 3,
             ),
           ),
@@ -89,7 +107,6 @@ class _OtpScreenState extends State<OtpScreen> {
           } else if (value.isNotEmpty && index < 5) {
             FocusScope.of(context).nextFocus();
             // 현재 필드에 값이 없고(즉, 값을 제거해서 onChanged 이벤트가 발생하였음), 시작위치가 아니라면 이전칸으로 이동
-            // TODO: 필드 값이 비어있을때 <- 클릭하면 이전 칸으로 이동하는건 onChanged 이벤트로 불가하므로 다른 방법을 찾아야 함
           } else if (value.isEmpty && index > 0) {
             FocusScope.of(context).previousFocus(); // 이전 필드로 이동
             _isOtpCompleted = false;
@@ -166,6 +183,14 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ),
                     Gaps.v20,
+                    if (_isInvalidOtp)
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text("You entered wrong code! try again.",
+                            style: TextStyle(
+                              color: Colors.red,
+                            )),
+                      ),
                     if (_isOtpCompleted)
                       Align(
                         alignment: Alignment.center,

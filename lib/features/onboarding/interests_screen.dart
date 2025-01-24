@@ -64,6 +64,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Scaffold(
       appBar: CommonAppBar(type: LeadingType.none),
       body: Column(
@@ -90,7 +91,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
                   style: TextStyle(
                     fontSize: Sizes.size16,
                     fontWeight: FontWeight.normal,
-                    color: Colors.grey.shade800,
+                    color: isDark ? Colors.grey.shade400 : Colors.grey.shade800,
                   ),
                 ),
               ],

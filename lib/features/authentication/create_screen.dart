@@ -117,9 +117,9 @@ class _CreateScreenState extends State<CreateScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => OtpScreen(
-          name: _name,
-          email: _email,
-          birthday: _birthdayController.text,
+          name: widget.name,
+          email: widget.email,
+          birthday: widget.birthday,
         ),
       ),
     );
@@ -158,6 +158,7 @@ class _CreateScreenState extends State<CreateScreen> {
                     Gaps.v28,
                     TextFormField(
                       controller: _nameController,
+                      readOnly: widget.isSignup ? true : false,
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                       ),
@@ -189,7 +190,7 @@ class _CreateScreenState extends State<CreateScreen> {
                       cursorColor: Theme.of(context).primaryColor,
                       validator: (value) {
                         if (value != null && value.isEmpty) {
-                          return "Plase write your email";
+                          return "Plase write your name";
                         }
                         return null;
                       },
@@ -199,6 +200,7 @@ class _CreateScreenState extends State<CreateScreen> {
                       onFocusChange: _onEmailFocusChanged,
                       child: TextFormField(
                         controller: _emailController,
+                        readOnly: widget.isSignup ? true : false,
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                         ),
@@ -246,12 +248,13 @@ class _CreateScreenState extends State<CreateScreen> {
                       onFocusChange: _onBirthdayFocusChanged,
                       child: TextFormField(
                         controller: _birthdayController,
+                        readOnly: widget.isSignup ? true : false,
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                         ),
                         decoration: InputDecoration(
                           labelText: "Date of birth",
-                          helperText: _isBirthdayFocused
+                          helperText: _isBirthdayFocused && !widget.isSignup
                               ? "This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or something else."
                               : null,
                           helperMaxLines: 5,
@@ -288,96 +291,7 @@ class _CreateScreenState extends State<CreateScreen> {
                 ),
               ),
             ),
-            if (widget.isSignup)
-              Positioned(
-                top: 500,
-                width: size.width,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Sizes.size32,
-                  ),
-                  child: RichText(
-                    text: TextSpan(
-                      text: "By signing up, you agree to our",
-                      style: TextStyle(
-                          color: isDark ? null : Colors.grey.shade800,
-                          fontSize: Sizes.size14 + Sizes.size1,
-                          height: 1.45,
-                          letterSpacing: -0.1),
-                      children: [
-                        TextSpan(
-                          text: " Terms of Service",
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        TextSpan(
-                          text: " and",
-                          style: TextStyle(
-                            color: isDark ? null : Colors.grey.shade800,
-                          ),
-                        ),
-                        TextSpan(
-                          text: " Privacy Policy",
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ", including",
-                          style: TextStyle(
-                            color: isDark ? null : Colors.grey.shade800,
-                          ),
-                        ),
-                        TextSpan(
-                          text: " Cookie Use",
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ".",
-                          style: TextStyle(
-                            color: isDark ? null : Colors.grey.shade800,
-                          ),
-                        ),
-                        TextSpan(
-                          text:
-                              " Twitter may use your contact information, including your email address and phone number for purposes outlined in our Privacy Policy, like keeping your account secure and personalizing our services, including ads.",
-                          style: TextStyle(
-                            color: isDark ? null : Colors.grey.shade800,
-                          ),
-                        ),
-                        TextSpan(
-                          text: " Learn more",
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        TextSpan(
-                          text:
-                              ". Others will be able to find you by email or phone number, when provided, unless you choose otherwise",
-                          style: TextStyle(
-                            color: isDark ? null : Colors.grey.shade800,
-                          ),
-                        ),
-                        TextSpan(
-                          text: " here",
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ".",
-                          style: TextStyle(
-                            color: isDark ? null : Colors.grey.shade800,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            if (widget.isSignup) showSignupPolicy(size, isDark, context),
             if (!widget.isSignup)
               Positioned(
                 bottom: _isBirthdayFocused ? 300 : 48,
@@ -444,6 +358,98 @@ class _CreateScreenState extends State<CreateScreen> {
                 ),
               )
             : null,
+      ),
+    );
+  }
+
+  Positioned showSignupPolicy(Size size, bool isDark, BuildContext context) {
+    return Positioned(
+      top: 500,
+      width: size.width,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Sizes.size32,
+        ),
+        child: RichText(
+          text: TextSpan(
+            text: "By signing up, you agree to our",
+            style: TextStyle(
+                color: isDark ? null : Colors.grey.shade800,
+                fontSize: Sizes.size14 + Sizes.size1,
+                height: 1.45,
+                letterSpacing: -0.1),
+            children: [
+              TextSpan(
+                text: " Terms of Service",
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              TextSpan(
+                text: " and",
+                style: TextStyle(
+                  color: isDark ? null : Colors.grey.shade800,
+                ),
+              ),
+              TextSpan(
+                text: " Privacy Policy",
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              TextSpan(
+                text: ", including",
+                style: TextStyle(
+                  color: isDark ? null : Colors.grey.shade800,
+                ),
+              ),
+              TextSpan(
+                text: " Cookie Use",
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              TextSpan(
+                text: ".",
+                style: TextStyle(
+                  color: isDark ? null : Colors.grey.shade800,
+                ),
+              ),
+              TextSpan(
+                text:
+                    " Twitter may use your contact information, including your email address and phone number for purposes outlined in our Privacy Policy, like keeping your account secure and personalizing our services, including ads.",
+                style: TextStyle(
+                  color: isDark ? null : Colors.grey.shade800,
+                ),
+              ),
+              TextSpan(
+                text: " Learn more",
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              TextSpan(
+                text:
+                    ". Others will be able to find you by email or phone number, when provided, unless you choose otherwise",
+                style: TextStyle(
+                  color: isDark ? null : Colors.grey.shade800,
+                ),
+              ),
+              TextSpan(
+                text: " here",
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              TextSpan(
+                text: ".",
+                style: TextStyle(
+                  color: isDark ? null : Colors.grey.shade800,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

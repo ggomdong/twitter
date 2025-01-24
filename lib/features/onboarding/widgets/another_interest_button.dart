@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/utils.dart';
 
 class AnotherInterestButton extends StatelessWidget {
   const AnotherInterestButton({
@@ -15,6 +16,7 @@ class AnotherInterestButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -24,21 +26,28 @@ class AnotherInterestButton extends StatelessWidget {
         ),
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          color: isSelected ? Theme.of(context).primaryColor : Colors.white,
+          color: isSelected
+              ? Theme.of(context).primaryColor
+              : isDark
+                  ? Colors.black
+                  : Colors.white,
           borderRadius: BorderRadius.circular(
             Sizes.size32,
           ),
           border: Border.all(
-            color: Colors.black.withValues(alpha: 0.2),
+            color: isDark ? Colors.white : Colors.black.withValues(alpha: 0.2),
           ),
         ),
         child: Text(
           item,
-          overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontSize: Sizes.size16,
               fontWeight: FontWeight.bold,
-              color: isSelected ? Colors.white : Colors.black87),
+              color: isSelected
+                  ? Colors.white
+                  : isDark
+                      ? Colors.white
+                      : Colors.black87),
         ),
       ),
     );

@@ -29,7 +29,13 @@ class AuthButton extends StatelessWidget {
             color: Colors.grey.shade400,
             width: 1,
           ),
-          color: isInverted ? Colors.black : Colors.white,
+          color: isInverted
+              ? isDark
+                  ? Colors.white
+                  : Colors.black
+              : isDark
+                  ? Colors.black
+                  : Colors.white,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +47,13 @@ class AuthButton extends StatelessWidget {
               style: TextStyle(
                 fontSize: Sizes.size18,
                 fontWeight: FontWeight.w800,
-                color: isInverted ? Colors.white : Colors.black,
+                color: isInverted
+                    ? isDark
+                        ? Colors.black
+                        : Colors.white
+                    : isDark
+                        ? Colors.white
+                        : Colors.black,
               ),
               textAlign: TextAlign.center,
             ),

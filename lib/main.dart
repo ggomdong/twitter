@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/features/authentication/otp_screen.dart';
-import 'package:twitter/features/authentication/password_screen.dart';
 import 'package:twitter/features/authentication/sign_up_screen.dart';
-import 'package:twitter/features/onboarding/another_interests_screen.dart';
-import 'package:twitter/features/onboarding/interests_screen.dart';
 
 void main() {
   runApp(const App());
@@ -69,12 +65,12 @@ class App extends StatelessWidget {
           color: Colors.grey.shade900,
         ),
       ),
-      home: const OtpScreen(
-        name: "ggom",
-        email: "ggomdong@naver.com",
-        birthday: "2025-01-22",
-      ),
-      // home: const InterestsScreen(),
+      // home: const OtpScreen(
+      //   name: "ggom",
+      //   email: "ggomdong@naver.com",
+      //   birthday: "2025-01-22",
+      // ),
+      home: const SignUpScreen(),
     );
   }
 }
