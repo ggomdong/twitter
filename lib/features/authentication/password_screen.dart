@@ -45,7 +45,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
     FocusScope.of(context).unfocus();
   }
 
-  void _onSubmit() {
+  void _onInterestsTap() {
     if (!_isPasswordValid()) return;
     Navigator.pushAndRemoveUntil(
       context,
@@ -98,7 +98,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
               Gaps.v28,
               TextField(
                 controller: _passwordController,
-                onEditingComplete: _onSubmit,
+                onEditingComplete: _onInterestsTap,
                 obscureText: _obscureText,
                 autocorrect: false,
                 decoration: InputDecoration(
@@ -155,10 +155,11 @@ class _PasswordScreenState extends State<PasswordScreen> {
               Gaps.v96,
               Gaps.v96,
               GestureDetector(
-                onTap: _onSubmit,
+                onTap: _onInterestsTap,
                 child: FormButton(
                   disabled: !_isPasswordValid(),
                   text: "Next",
+                  buttonSize: ButtonSize.large,
                 ),
               ),
             ],

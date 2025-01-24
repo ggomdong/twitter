@@ -26,15 +26,16 @@ class _OtpScreenState extends State<OtpScreen> {
   final List<String?> _otpValues =
       List.generate(6, (_) => null); // 각 필드의 값을 저장할 리스트
 
-  String _otpCode = "";
   bool _isOtpCompleted = false;
 
   void _handleSubmit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save(); // 각 TextFormField의 onSaved 호출
-      _otpCode = _otpValues.join(); // 리스트를 문자열로 합치기
+      final String otpCode = _otpValues.join(); // 리스트를 문자열로 합치기
       _isOtpCompleted = true;
       setState(() {});
+
+      /// TODO: 서버 연계시 _otpCode 전송 필요
     }
   }
 
@@ -51,7 +52,9 @@ class _OtpScreenState extends State<OtpScreen> {
           fontWeight: FontWeight.w800,
         ),
         decoration: InputDecoration(
-          counterText: "", // 하단의 글자 수 표시 제거
+          // 하단의 글자 수 표시 제거
+          counterText: "",
+          // 입력값과 underline 간의 간격 설정
           contentPadding: EdgeInsets.only(bottom: Sizes.size18),
           border: UnderlineInputBorder(),
           focusedBorder: UnderlineInputBorder(
@@ -69,19 +72,24 @@ class _OtpScreenState extends State<OtpScreen> {
         ),
         validator: (value) {
           if (value == null || value.isEmpty || value.length != 1) {
-            return ''; // 에러 메시지 대신 아무것도 표시하지 않음
+            return '';
           }
           return null;
         },
         onSaved: (value) {
-          _otpValues[index] = value; // 입력값 저장
+          // 입력값 저장
+          _otpValues[index] = value;
         },
         onChanged: (value) {
+          // 모든 값 입력 완료
           if (value.isNotEmpty && index == 5) {
             FocusScope.of(context).unfocus();
             _handleSubmit();
+            // 현재 필드에 값이 있고(즉, 값을 입력해서 onChanged 이벤트가 발생하였음), 아직 끝이 아니라면 다음칸으로 이동
           } else if (value.isNotEmpty && index < 5) {
-            FocusScope.of(context).nextFocus(); // 다음 필드로 이동
+            FocusScope.of(context).nextFocus();
+            // 현재 필드에 값이 없고(즉, 값을 제거해서 onChanged 이벤트가 발생하였음), 시작위치가 아니라면 이전칸으로 이동
+            // TODO: 필드 값이 비어있을때 <- 클릭하면 이전 칸으로 이동하는건 onChanged 이벤트로 불가하므로 다른 방법을 찾아야 함
           } else if (value.isEmpty && index > 0) {
             FocusScope.of(context).previousFocus(); // 이전 필드로 이동
             _isOtpCompleted = false;
@@ -199,6 +207,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       child: FormButton(
                         disabled: !_isOtpCompleted,
                         text: "Next",
+                        buttonSize: ButtonSize.large,
                       ),
                     ),
                   ],

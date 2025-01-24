@@ -1,51 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/features/authentication/widgets/form_button_small.dart';
+import 'package:twitter/features/authentication/widgets/form_button.dart';
 import 'package:twitter/features/common/common_app_bar.dart';
+import 'package:twitter/features/onboarding/another_interests_screen.dart';
+import 'package:twitter/features/onboarding/widgets/firework_icon.dart';
 import 'package:twitter/features/onboarding/widgets/interest_button.dart';
 import 'package:twitter/utils.dart';
 
-const interests = [
-  "Daily Life",
-  "Comedy",
-  "Entertainment",
-  "Animals",
-  "Food",
-  "Beauty & Style",
-  "Drama",
-  "Learning",
-  "Talent",
-  "Sports",
-  "Auto",
-  "Family",
-  "Fitness & Health",
-  "DIY & Life Hacks",
-  "Arts & Crafts",
-  "Dance",
-  "Outdoors",
-  "Oddly Satisfying",
-  "Home & Garden",
-  "Daily Life",
-  "Comedy",
-  "Entertainment",
-  "Animals",
-  "Food",
-  "Beauty & Style",
-  "Drama",
-  "Learning",
-  "Talent",
-  "Sports",
-  "Auto",
-  "Family",
-  "Fitness & Health",
-  "DIY & Life Hacks",
-  "Arts & Crafts",
-  "Dance",
-  "Outdoors",
-  "Oddly Satisfying",
-  "Home & Garden",
-];
+const interests = {
+  0: "Daily Life",
+  1: "Comedy",
+  2: "Entertainment",
+  3: "Animals",
+  4: "Food",
+  5: "Beauty & Style",
+  6: "Drama",
+  7: "Learning",
+  8: "Talent",
+  9: "Sports",
+  10: "Auto",
+  11: "Family",
+  12: "Fitness & Health",
+  13: "DIY & Life Hacks",
+  14: "Arts & Crafts",
+  15: "Dance",
+  16: "Outdoors",
+  17: "Oddly Satisfying",
+  18: "Home & Garden",
+};
 
 class InterestsScreen extends StatefulWidget {
   const InterestsScreen({super.key});
@@ -55,6 +38,30 @@ class InterestsScreen extends StatefulWidget {
 }
 
 class _InterestsScreenState extends State<InterestsScreen> {
+  /// 선택된 항목의 인덱스 관리
+  final Set<String> _selectedInterests = {};
+
+  void _onCountSelectedInterests(item) {
+    final uniqueKey = '$item.key-$item.value';
+    setState(() {
+      if (_selectedInterests.contains(uniqueKey)) {
+        _selectedInterests.remove(uniqueKey);
+      } else {
+        _selectedInterests.add(uniqueKey);
+      }
+    });
+    // TODO: 추후 서버 연계시 추가 작성
+  }
+
+  void _onAnotherInterestsTap() {
+    if (_selectedInterests.length < 3) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const AnotherInterestsScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,32 +109,77 @@ class _InterestsScreenState extends State<InterestsScreen> {
                 runSpacing: Sizes.size10,
                 spacing: Sizes.size10,
                 children: [
-                  for (var interest in interests)
+                  for (var item in interests.entries)
                     InterestButton(
-                      interest: interest,
+                      item: item.value,
+                      isSelected:
+                          _selectedInterests.contains('$item.key-$item.value'),
+                      onTap: () => _onCountSelectedInterests(item),
                     )
                 ],
               ),
             ),
-          )
+          ),
+          Gaps.v20,
         ],
       ),
       bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey.shade300,
+              width: Sizes.size1,
+            ),
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.only(
-            bottom: Sizes.size40,
-            top: Sizes.size16,
-            left: Sizes.size24,
-            right: Sizes.size24,
+            left: Sizes.size32,
+            right: Sizes.size32,
+            top: Sizes.size12,
+            bottom: Sizes.size36,
           ),
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.size16 + Sizes.size2,
-            ),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-            ),
-            child: FormButtonSmall(disabled: true, text: "Next"),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 선택된 개수 표시
+              _selectedInterests.length >= 3
+                  ? RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Great works ",
+                            style: TextStyle(
+                              fontSize: Sizes.size14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          WidgetSpan(
+                            child: FireworkIcon(),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Text(
+                      '${_selectedInterests.length} of 3 selected',
+                      style: TextStyle(
+                        fontSize: Sizes.size14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+              // 버튼 (Container로 구현)
+              GestureDetector(
+                onTap: _onAnotherInterestsTap,
+                child: FormButton(
+                  disabled: _selectedInterests.length < 3,
+                  text: "Next",
+                  buttonSize: ButtonSize.small,
+                ),
+              ),
+            ],
           ),
         ),
       ),

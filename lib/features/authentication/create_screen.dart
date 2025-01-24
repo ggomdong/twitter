@@ -5,7 +5,7 @@ import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/otp_screen.dart';
 import 'package:twitter/features/authentication/customize_screen.dart';
-import 'package:twitter/features/authentication/widgets/form_button_small.dart';
+import 'package:twitter/features/authentication/widgets/form_button.dart';
 import 'package:twitter/features/common/common_app_bar.dart';
 import 'package:twitter/utils.dart';
 
@@ -98,7 +98,7 @@ class _CreateScreenState extends State<CreateScreen> {
     _birthdayController.value = TextEditingValue(text: textDate);
   }
 
-  void _onSubmit() {
+  void _onCustomizeTap() {
     if (_name.isEmpty || _email.isEmpty || !_isEmailValid()) return;
     Navigator.push(
       context,
@@ -112,7 +112,7 @@ class _CreateScreenState extends State<CreateScreen> {
     );
   }
 
-  void _onConfirmTab() {
+  void _onOtpTab() {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -384,12 +384,13 @@ class _CreateScreenState extends State<CreateScreen> {
                 right: 24,
                 width: Sizes.size80,
                 child: GestureDetector(
-                  onTap: _onSubmit,
-                  child: FormButtonSmall(
+                  onTap: _onCustomizeTap,
+                  child: FormButton(
                     disabled: !(_name.isNotEmpty &&
                         _isEmailValid() &&
                         _birthdayController.text.isNotEmpty),
                     text: "Next",
+                    buttonSize: ButtonSize.small,
                   ),
                 ),
               ),
@@ -418,7 +419,7 @@ class _CreateScreenState extends State<CreateScreen> {
                   right: Sizes.size32,
                 ),
                 child: GestureDetector(
-                  onTap: _onConfirmTab,
+                  onTap: _onOtpTab,
                   child: FractionallySizedBox(
                     widthFactor: 1,
                     child: Container(

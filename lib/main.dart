@@ -3,6 +3,7 @@ import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/otp_screen.dart';
 import 'package:twitter/features/authentication/password_screen.dart';
 import 'package:twitter/features/authentication/sign_up_screen.dart';
+import 'package:twitter/features/onboarding/another_interests_screen.dart';
 import 'package:twitter/features/onboarding/interests_screen.dart';
 
 void main() {

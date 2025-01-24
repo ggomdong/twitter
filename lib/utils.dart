@@ -4,3 +4,5 @@ bool isDarkMode(BuildContext context) =>
     MediaQuery.of(context).platformBrightness == Brightness.dark;
 
 enum LeadingType { cancel, arrow, none }
+
+enum ButtonSize { large, small }

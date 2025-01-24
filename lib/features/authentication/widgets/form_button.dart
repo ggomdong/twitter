@@ -3,26 +3,35 @@ import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/utils.dart';
 
 class FormButton extends StatelessWidget {
-  FormButton({
+  const FormButton({
     super.key,
     required this.disabled,
     required this.text,
+    required this.buttonSize,
   });
 
   final bool disabled;
-  String text;
+  final String text;
+  final ButtonSize buttonSize;
 
   @override
   Widget build(BuildContext context) {
     final bool isDark = isDarkMode(context);
     return FractionallySizedBox(
-      widthFactor: 1,
+      widthFactor: buttonSize == ButtonSize.large ? 1 : null,
       child: AnimatedContainer(
-        padding: const EdgeInsets.symmetric(
-          vertical: Sizes.size16,
-        ),
+        padding: buttonSize == ButtonSize.large
+            ? const EdgeInsets.symmetric(
+                vertical: Sizes.size16,
+              )
+            : const EdgeInsets.symmetric(
+                horizontal: Sizes.size20,
+                vertical: Sizes.size8,
+              ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Sizes.size32),
+          borderRadius: BorderRadius.circular(
+            buttonSize == ButtonSize.large ? Sizes.size32 : Sizes.size20,
+          ),
           color: disabled
               ? isDark
                   ? Colors.grey.shade800
@@ -36,7 +45,8 @@ class FormButton extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: Sizes.size18,
+            fontSize:
+                buttonSize == ButtonSize.large ? Sizes.size18 : Sizes.size16,
             fontWeight: FontWeight.w700,
             color: disabled
                 ? isDark

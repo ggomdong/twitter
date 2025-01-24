@@ -30,7 +30,7 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
     });
   }
 
-  void _onConfirmTap() {
+  void _onSignupTap() {
     if (!_notifications) return;
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -167,10 +167,11 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
           right: Sizes.size32,
         ),
         child: GestureDetector(
-          onTap: _onConfirmTap,
+          onTap: _onSignupTap,
           child: FormButton(
             disabled: !_notifications,
             text: "Next",
+            buttonSize: ButtonSize.large,
           ),
         ),
       ),
