@@ -22,17 +22,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     });
   }
 
-  void _onPostVideoButtonTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(title: const Text('Record video')),
-        ),
-        fullscreenDialog: true,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
@@ -65,12 +54,22 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ],
       ),
       bottomNavigationBar: Container(
-        color: _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
-        padding: const EdgeInsets.only(
-          bottom: Sizes.size32,
+        decoration: BoxDecoration(
+          color: isDark ? Colors.black : Colors.white,
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey.shade300,
+              width: Sizes.size1,
+            ),
+          ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.size12),
+          padding: const EdgeInsets.only(
+            left: Sizes.size12,
+            right: Sizes.size12,
+            top: Sizes.size24,
+            bottom: Sizes.size52,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -83,24 +82,22 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               ),
               NavTab(
                 isSelected: _selectedIndex == 1,
-                icon: FontAwesomeIcons.compass,
-                selectedIcon: FontAwesomeIcons.solidCompass,
+                icon: FontAwesomeIcons.magnifyingGlass,
+                selectedIcon: FontAwesomeIcons.magnifyingGlass,
                 onTap: () => _onTap(1),
                 selectedIndex: _selectedIndex,
               ),
-              Gaps.h24,
               NavTab(
                 isSelected: _selectedIndex == 2,
-                icon: FontAwesomeIcons.compass,
-                selectedIcon: FontAwesomeIcons.solidCompass,
+                icon: FontAwesomeIcons.penToSquare,
+                selectedIcon: FontAwesomeIcons.solidPenToSquare,
                 onTap: () => _onTap(2),
                 selectedIndex: _selectedIndex,
               ),
-              Gaps.h24,
               NavTab(
                 isSelected: _selectedIndex == 3,
-                icon: FontAwesomeIcons.message,
-                selectedIcon: FontAwesomeIcons.solidMessage,
+                icon: FontAwesomeIcons.heart,
+                selectedIcon: FontAwesomeIcons.solidHeart,
                 onTap: () => _onTap(3),
                 selectedIndex: _selectedIndex,
               ),

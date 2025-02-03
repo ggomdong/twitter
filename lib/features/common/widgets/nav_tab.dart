@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/utils.dart';
 
 class NavTab extends StatelessWidget {
@@ -25,19 +26,16 @@ class NavTab extends StatelessWidget {
       child: GestureDetector(
         onTap: () => onTap(),
         child: Container(
-          color: selectedIndex == 0 || isDark ? Colors.black : Colors.white,
+          color: isDark ? Colors.black : Colors.white,
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             opacity: isSelected ? 1 : 0.6,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                FaIcon(
-                  isSelected ? selectedIcon : icon,
-                  color: selectedIndex == 0 || isDark
-                      ? Colors.white
-                      : Colors.black,
-                ),
+                FaIcon(isSelected ? selectedIcon : icon,
+                    color: isDark ? Colors.white : Colors.black,
+                    size: Sizes.size28),
               ],
             ),
           ),
