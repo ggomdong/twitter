@@ -4,6 +4,7 @@ import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/widgets/form_button.dart';
 import 'package:twitter/features/common/common_app_bar.dart';
 import 'package:twitter/features/onboarding/widgets/horizontal_interests.dart';
+import 'package:twitter/features/common/main_navigation_screen.dart';
 import 'package:twitter/utils.dart';
 
 const music = {
@@ -117,69 +118,75 @@ class _AnotherInterestsScreenState extends State<AnotherInterestsScreen> {
     );
   }
 
+  void _onTapNavigation() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => MainNavigationScreen(),
+      ),
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
     return Scaffold(
       appBar: CommonAppBar(type: LeadingType.arrow),
-      body: Scrollbar(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.size32,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Gaps.v12,
-                    const Text(
-                      "What do you want to see on Twitter?",
-                      style: TextStyle(
-                        letterSpacing: -1,
-                        fontSize: Sizes.size28,
-                        fontWeight: FontWeight.w800,
-                      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.size32,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Gaps.v12,
+                  const Text(
+                    "What do you want to see on Twitter?",
+                    style: TextStyle(
+                      letterSpacing: -1,
+                      fontSize: Sizes.size28,
+                      fontWeight: FontWeight.w800,
                     ),
-                    Gaps.v16,
-                    Text(
-                      "Interests are used to personalize your experience and will be visible on your profile.",
-                      style: TextStyle(
-                        fontSize: Sizes.size16,
-                        fontWeight: FontWeight.normal,
-                        color: isDark
-                            ? Colors.grey.shade400
-                            : Colors.grey.shade800,
-                      ),
+                  ),
+                  Gaps.v16,
+                  Text(
+                    "Interests are used to personalize your experience and will be visible on your profile.",
+                    style: TextStyle(
+                      fontSize: Sizes.size16,
+                      fontWeight: FontWeight.normal,
+                      color:
+                          isDark ? Colors.grey.shade400 : Colors.grey.shade800,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Gaps.v20,
-              HorizontalInterests(
-                items: music,
-                category: "Music",
-                onSelectedItemsChanged: (selectedItems) {
-                  _onUpdateSelectedItems("Music", selectedItems);
-                },
-              ),
-              HorizontalInterests(
-                items: entertainment,
-                category: "Entertainment",
-                onSelectedItemsChanged: (selectedItems) {
-                  _onUpdateSelectedItems("Entertainment", selectedItems);
-                },
-              ),
-              HorizontalInterests(
-                items: sports,
-                category: "Sports",
-                onSelectedItemsChanged: (selectedItems) {
-                  _onUpdateSelectedItems("Sports", selectedItems);
-                },
-              ),
-            ],
-          ),
+            ),
+            Gaps.v20,
+            HorizontalInterests(
+              items: music,
+              category: "Music",
+              onSelectedItemsChanged: (selectedItems) {
+                _onUpdateSelectedItems("Music", selectedItems);
+              },
+            ),
+            HorizontalInterests(
+              items: entertainment,
+              category: "Entertainment",
+              onSelectedItemsChanged: (selectedItems) {
+                _onUpdateSelectedItems("Entertainment", selectedItems);
+              },
+            ),
+            HorizontalInterests(
+              items: sports,
+              category: "Sports",
+              onSelectedItemsChanged: (selectedItems) {
+                _onUpdateSelectedItems("Sports", selectedItems);
+              },
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: Container(
@@ -213,7 +220,7 @@ class _AnotherInterestsScreenState extends State<AnotherInterestsScreen> {
                     )
                   : Text(""),
               GestureDetector(
-                onTap: () {},
+                onTap: _onTapNavigation,
                 child: FormButton(
                   disabled: _sumSelected < 3,
                   text: "Next",

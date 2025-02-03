@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/sign_up_screen.dart';
+import 'package:twitter/features/common/main_navigation_screen.dart';
+import 'package:twitter/features/onboarding/another_interests_screen.dart';
 
 void main() {
   runApp(const App());
@@ -70,7 +72,8 @@ class App extends StatelessWidget {
       //   email: "ggomdong@naver.com",
       //   birthday: "2025-01-22",
       // ),
-      home: const SignUpScreen(),
+      // home: const SignUpScreen(),
+      home: const MainNavigationScreen(),
     );
   }
 }
