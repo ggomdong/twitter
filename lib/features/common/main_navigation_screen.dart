@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/common/widgets/nav_tab.dart';
 import 'package:twitter/features/threads/threads_screen.dart';
@@ -37,19 +36,36 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: const Text("search"),
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(Sizes.size32),
+              child: Text("search", style: TextStyle(fontSize: Sizes.size32)),
+            ),
           ),
           Offstage(
             offstage: _selectedIndex != 2,
-            child: const Text("post"),
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(Sizes.size32),
+              child: Text("post", style: TextStyle(fontSize: Sizes.size32)),
+            ),
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: const Text("heart"),
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(Sizes.size32),
+              child:
+                  Text("favorites", style: TextStyle(fontSize: Sizes.size32)),
+            ),
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: const Text("profile"),
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(Sizes.size32),
+              child: Text("profile", style: TextStyle(fontSize: Sizes.size32)),
+            ),
           )
         ],
       ),

@@ -67,11 +67,6 @@ class App extends StatelessWidget {
           color: Colors.grey.shade900,
         ),
       ),
-      // home: const OtpScreen(
-      //   name: "ggom",
-      //   email: "ggomdong@naver.com",
-      //   birthday: "2025-01-22",
-      // ),
       // home: const SignUpScreen(),
       home: const MainNavigationScreen(),
     );
