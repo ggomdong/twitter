@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/features/threads/threads_classes.dart';
 import 'package:twitter/utils.dart';
 
 class ThreadsScreen extends StatefulWidget {
@@ -30,7 +31,6 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -42,7 +42,7 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
             centerTitle: true,
             floating: true,
             snap: true,
-            expandedHeight: 100,
+            expandedHeight: 80,
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -57,26 +57,64 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(post.avatarUrl),
-                                onBackgroundImageError:
-                                    (exception, stackTrace) {
-                                  debugPrint("Image load failed: $exception");
-                                },
-                                // 에러발생시 기본 아이콘 표시
-                                child: Icon(
-                                  Icons.person,
-                                  size: Sizes.size32,
-                                ),
+                              // CircleAvatar(
+                              //   backgroundImage: NetworkImage(post.avatarUrl),
+                              //   onBackgroundImageError:
+                              //       (exception, stackTrace) {
+                              //     debugPrint("Image load failed: $exception");
+                              //   },
+                              // ),
+                              Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.red,
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          post.avatarUrl,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  // Inner circle (with a plus icon)
+                                  Positioned(
+                                    top: 22,
+                                    left: 22,
+                                    child: Container(
+                                      width: 22,
+                                      height: 22,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 2.5,
+                                        ),
+                                        color: Colors.black,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: FaIcon(
+                                          FontAwesomeIcons.plus,
+                                          color: Colors.white,
+                                          size: 12,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               Gaps.v10,
                               Container(
                                 width: 2,
                                 height: post.imageUrls.isNotEmpty
-                                    ? Sizes.size96 + Sizes.size96 + Sizes.size60
-                                    : Sizes.size72,
+                                    ? Sizes.size96 + Sizes.size96 + Sizes.size72
+                                    : Sizes.size64,
                                 color: Colors.grey.shade300,
                               ),
                             ],
@@ -89,14 +127,15 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
                                         Text(
                                           post.username,
                                           style: TextStyle(
-                                            fontSize: Sizes.size14,
-                                            fontWeight: FontWeight.w800,
+                                            fontSize: Sizes.size16,
+                                            fontWeight: FontWeight.w700,
                                           ),
                                         ),
                                         Gaps.h10,
@@ -109,10 +148,14 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
                                       ],
                                     ),
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           _convertTime(post.elapsedMinutes),
                                           style: TextStyle(
+                                            fontSize: Sizes.size16,
+                                            fontWeight: FontWeight.w400,
                                             color: Colors.grey.shade500,
                                           ),
                                         ),
@@ -120,8 +163,8 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
                                         Text(
                                           "···",
                                           style: TextStyle(
-                                            fontSize: Sizes.size24,
-                                            fontWeight: FontWeight.w800,
+                                            fontSize: Sizes.size16,
+                                            fontWeight: FontWeight.w900,
                                           ),
                                         ),
                                       ],
@@ -144,20 +187,21 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
                                       Gaps.v10,
                                       SizedBox(
                                         height: Sizes.size96 +
-                                            Sizes.size96, // 이미지 높이 지정
+                                            Sizes.size96 +
+                                            Sizes.size20, // 이미지 높이 지정
                                         child: ListView.builder(
                                           scrollDirection: Axis.horizontal,
                                           itemCount: post.imageUrls.length,
                                           itemBuilder: (context, imgIndex) {
                                             return Padding(
                                               padding: EdgeInsets.only(
-                                                  right: Sizes.size8),
+                                                  right: Sizes.size10),
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(
                                                         Sizes.size8),
-                                                // child: Image.network(
-                                                //     post.imageUrls[imgIndex]),
+                                                child: Image.network(
+                                                    post.imageUrls[imgIndex]),
                                               ),
                                             );
                                           },
@@ -193,113 +237,140 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
                           SizedBox(
                             width: 40,
                             height: 40,
-                            child: post.replies == 1
-                                ? Stack(
-                                    clipBehavior: Clip.none,
-                                    children: [
-                                      Positioned(
-                                        top: 0,
-                                        left: 0,
-                                        child: CircleAvatar(
-                                          radius: 20,
-                                          backgroundColor: Colors.grey.shade500,
-                                          foregroundColor: Colors.black,
-                                          child: const Text("니꼬"),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                : post.replies == 2
+                            child: post.replies == 0
+                                ? null
+                                : post.replies == 1
                                     ? Stack(
                                         clipBehavior: Clip.none,
                                         children: [
-                                          // 왼쪽 반원 아바타
                                           Positioned(
+                                            top: 5,
                                             left: 5,
-                                            child: Container(
-                                              width: 20,
-                                              height: 20,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.red,
-                                                // image: DecorationImage(
-                                                //   image: NetworkImage(
-                                                //       'https://i.pravatar.cc/100?img=4'),
-                                                //   fit: BoxFit.cover,
-                                                // ),
+                                            child: CircleAvatar(
+                                              radius: 15,
+                                              backgroundImage: NetworkImage(
+                                                post.repliesAvatars[0],
                                               ),
-                                              child: Align(
-                                                alignment: Alignment
-                                                    .centerLeft, // 왼쪽 반만 보이도록 설정
-                                              ),
-                                            ),
-                                          ),
-
-                                          // 오른쪽 전체 원형 아바타
-                                          Positioned(
-                                            left: 15,
-                                            child: Container(
-                                              width: 20,
-                                              height: 20,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.blue,
-                                                // image: DecorationImage(
-                                                //   image: NetworkImage(
-                                                //       'https://i.pravatar.cc/100?img=5'),
-                                                //   fit: BoxFit.cover,
-                                                // ),
-                                              ),
+                                              onBackgroundImageError:
+                                                  (exception, stackTrace) {
+                                                debugPrint(
+                                                    "Image load failed: $exception");
+                                              },
                                             ),
                                           ),
                                         ],
                                       )
-                                    : Stack(
-                                        clipBehavior: Clip.none,
-                                        children: [
-                                          Positioned(
-                                            top: 10,
-                                            left: 0,
-                                            child: CircleAvatar(
-                                              radius: 9,
-                                              backgroundColor:
-                                                  Colors.grey.shade500,
-                                              foregroundColor: Colors.black,
-                                              child: const Text("니꼬"),
-                                            ),
+                                    : post.replies == 2
+                                        ? Stack(
+                                            clipBehavior: Clip.none,
+                                            children: [
+                                              // 왼쪽 반원 아바타
+                                              Positioned(
+                                                top: 10,
+                                                left: 3,
+                                                child: Container(
+                                                  width: 20,
+                                                  height: 20,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.red,
+                                                    image: DecorationImage(
+                                                      image: NetworkImage(
+                                                        post.repliesAvatars[0],
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                  child: Align(
+                                                    alignment: Alignment
+                                                        .centerLeft, // 왼쪽 반만 보이도록 설정
+                                                  ),
+                                                ),
+                                              ),
+                                              Gaps.h10,
+                                              // 오른쪽 전체 원형 아바타
+                                              Positioned(
+                                                top: 6,
+                                                left: 15,
+                                                child: Container(
+                                                  width: 28,
+                                                  height: 28,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.white,
+                                                      width: 4,
+                                                    ),
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.blue,
+                                                    image: DecorationImage(
+                                                      image: NetworkImage(
+                                                        post.repliesAvatars[1],
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        : Stack(
+                                            clipBehavior: Clip.none,
+                                            children: [
+                                              Positioned(
+                                                top: 10,
+                                                left: 0,
+                                                child: CircleAvatar(
+                                                  radius: 9,
+                                                  backgroundImage: NetworkImage(
+                                                    post.repliesAvatars[0],
+                                                  ),
+                                                  onBackgroundImageError:
+                                                      (exception, stackTrace) {
+                                                    debugPrint(
+                                                        "Image load failed: $exception");
+                                                  },
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 28,
+                                                left: 17,
+                                                child: CircleAvatar(
+                                                  radius: 7,
+                                                  backgroundImage: NetworkImage(
+                                                    post.repliesAvatars[1],
+                                                  ),
+                                                  onBackgroundImageError:
+                                                      (exception, stackTrace) {
+                                                    debugPrint(
+                                                        "Image load failed: $exception");
+                                                  },
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 0,
+                                                left: 21,
+                                                child: CircleAvatar(
+                                                  radius: 11,
+                                                  backgroundImage: NetworkImage(
+                                                    post.repliesAvatars[2],
+                                                  ),
+                                                  onBackgroundImageError:
+                                                      (exception, stackTrace) {
+                                                    debugPrint(
+                                                        "Image load failed: $exception");
+                                                  },
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Positioned(
-                                            top: 30,
-                                            left: 20,
-                                            child: CircleAvatar(
-                                              radius: 6,
-                                              backgroundColor:
-                                                  Colors.red.shade500,
-                                              foregroundColor: Colors.white,
-                                              child: const Text("니꼬2"),
-                                            ),
-                                          ),
-                                          Positioned(
-                                            top: 0,
-                                            left: 23,
-                                            child: CircleAvatar(
-                                              radius: 12,
-                                              backgroundColor:
-                                                  Colors.blue.shade500,
-                                              foregroundColor: Colors.white,
-                                              child: const Text("니꼬3"),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
                           ),
                           Gaps.h10,
                           Expanded(
                             child: Column(children: [
                               DefaultTextStyle(
                                 style: TextStyle(
-                                  fontSize: Sizes.size16,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: Sizes.size16 + Sizes.size1,
+                                  fontWeight: FontWeight.w400,
                                   color: Colors.grey.shade500,
                                 ),
                                 child: Row(
