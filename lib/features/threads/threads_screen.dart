@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/features/threads/thread_modal.dart';
 import 'package:twitter/features/threads/threads_classes.dart';
 import 'package:twitter/utils.dart';
 
@@ -27,6 +29,18 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
       default:
         return "${(minutes / 1440).floor()}d";
     }
+  }
+
+  void _onThreadModalTap() async {
+    await showModalBottomSheet(
+      context: context,
+      showDragHandle: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(Sizes.size16)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) => ThreadModal(),
+    );
   }
 
   @override
@@ -163,11 +177,14 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
                                             ),
                                           ),
                                           Gaps.h14,
-                                          Text(
-                                            "···",
-                                            style: TextStyle(
-                                              fontSize: Sizes.size16,
-                                              fontWeight: FontWeight.w900,
+                                          GestureDetector(
+                                            onTap: _onThreadModalTap,
+                                            child: Text(
+                                              "···",
+                                              style: TextStyle(
+                                                fontSize: Sizes.size16,
+                                                fontWeight: FontWeight.w900,
+                                              ),
                                             ),
                                           ),
                                         ],
