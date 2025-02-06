@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/common/widgets/nav_tab.dart';
-import 'package:twitter/features/threads/threads_screen.dart';
+import 'package:twitter/features/thread/thread_screen.dart';
+import 'package:twitter/features/thread/widgets/thread_post.dart';
 import 'package:twitter/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -21,6 +22,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     });
   }
 
+  void _onThreadsPostTap() async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => ThreadPost(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
@@ -32,7 +42,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         children: [
           Offstage(
             offstage: _selectedIndex != 0,
-            child: const ThreadsScreen(),
+            child: const ThreadScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 1,
@@ -40,14 +50,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               alignment: Alignment.center,
               padding: EdgeInsets.all(Sizes.size32),
               child: Text("search", style: TextStyle(fontSize: Sizes.size32)),
-            ),
-          ),
-          Offstage(
-            offstage: _selectedIndex != 2,
-            child: Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(Sizes.size32),
-              child: Text("post", style: TextStyle(fontSize: Sizes.size32)),
             ),
           ),
           Offstage(
@@ -107,7 +109,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 isSelected: _selectedIndex == 2,
                 icon: FontAwesomeIcons.penToSquare,
                 selectedIcon: FontAwesomeIcons.solidPenToSquare,
-                onTap: () => _onTap(2),
+                onTap: _onThreadsPostTap,
                 selectedIndex: _selectedIndex,
               ),
               NavTab(

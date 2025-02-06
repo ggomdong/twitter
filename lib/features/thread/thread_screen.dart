@@ -1,20 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/features/threads/thread_modal.dart';
-import 'package:twitter/features/threads/threads_classes.dart';
+import 'package:twitter/features/thread/widgets/thread_modal.dart';
+import 'package:twitter/features/thread/thread_classes.dart';
 import 'package:twitter/utils.dart';
 
-class ThreadsScreen extends StatefulWidget {
-  const ThreadsScreen({super.key});
+class ThreadScreen extends StatefulWidget {
+  const ThreadScreen({super.key});
 
   @override
-  State<ThreadsScreen> createState() => _ThreadsScreenState();
+  State<ThreadScreen> createState() => _ThreadScreenState();
 }
 
-class _ThreadsScreenState extends State<ThreadsScreen> {
+class _ThreadScreenState extends State<ThreadScreen> {
   // 최신 Post가 상단에 오도록 하기 위해, faker 패키지로 랜덤 생성한 posts를 elapsedTime으로 정렬
   final List<Post> posts = List.generate(10, (index) => Post.generate())
     ..sort((a, b) => a.elapsedMinutes.compareTo(b.elapsedMinutes));
@@ -31,7 +30,7 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
     }
   }
 
-  void _onThreadModalTap() async {
+  void _onThreadsModalTap() async {
     await showModalBottomSheet(
       context: context,
       showDragHandle: true,
@@ -90,7 +89,6 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
                                         ),
                                       ),
                                     ),
-                                    // Inner circle (with a plus icon)
                                     Positioned(
                                       top: 22,
                                       left: 22,
@@ -178,7 +176,7 @@ class _ThreadsScreenState extends State<ThreadsScreen> {
                                           ),
                                           Gaps.h14,
                                           GestureDetector(
-                                            onTap: _onThreadModalTap,
+                                            onTap: _onThreadsModalTap,
                                             child: Text(
                                               "···",
                                               style: TextStyle(

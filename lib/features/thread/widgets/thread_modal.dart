@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/features/threads/thread_report.dart';
+import 'package:twitter/features/thread/widgets/thread_report.dart';
+import 'package:twitter/features/thread/widgets/thread_button.dart';
 import 'package:twitter/utils.dart';
 
 class ThreadModal extends StatefulWidget {
@@ -13,7 +14,6 @@ class ThreadModal extends StatefulWidget {
 
 class _ThreadModalState extends State<ThreadModal> {
   void _onReportTap() async {
-    Navigator.of(context).pop();
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -35,16 +35,26 @@ class _ThreadModalState extends State<ThreadModal> {
       child: Scaffold(
         backgroundColor: isDark ? Colors.grey.shade500 : Colors.white,
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: Sizes.size16),
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.size24,
+          ),
           child: Column(
             children: [
-              Text("Unfollow"),
-              Text("Mute"),
-              Text("Hide"),
-              GestureDetector(
-                onTap: _onReportTap,
-                child: Text("Report"),
-              ),
+              buildButtonGroup([
+                buildModalButton(text: "Unfollow"),
+                buildDivider(),
+                buildModalButton(text: "Mute"),
+              ]),
+              Gaps.v16,
+              buildButtonGroup([
+                buildModalButton(text: "Hide"),
+                buildDivider(),
+                buildModalButton(
+                  text: "Report",
+                  color: Colors.red,
+                  onPressed: _onReportTap,
+                ),
+              ]),
             ],
           ),
         ),
