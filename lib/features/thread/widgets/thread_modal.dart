@@ -21,7 +21,8 @@ class _ThreadModalState extends State<ThreadModal> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(Sizes.size16)),
       ),
       showDragHandle: true,
-      backgroundColor: Colors.white,
+      backgroundColor:
+          isDarkMode(context) ? Colors.grey.shade900 : Colors.white,
       builder: (context) => ThreadReport(),
     );
   }
@@ -33,7 +34,7 @@ class _ThreadModalState extends State<ThreadModal> {
     return SizedBox(
       height: size.height * 0.32,
       child: Scaffold(
-        backgroundColor: isDark ? Colors.grey.shade500 : Colors.white,
+        backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
         body: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: Sizes.size24,
@@ -41,15 +42,16 @@ class _ThreadModalState extends State<ThreadModal> {
           child: Column(
             children: [
               buildButtonGroup([
-                buildModalButton(text: "Unfollow"),
+                buildModalButton(isDark: isDark, text: "Unfollow"),
                 buildDivider(),
-                buildModalButton(text: "Mute"),
+                buildModalButton(isDark: isDark, text: "Mute"),
               ]),
               Gaps.v16,
               buildButtonGroup([
-                buildModalButton(text: "Hide"),
+                buildModalButton(isDark: isDark, text: "Hide"),
                 buildDivider(),
                 buildModalButton(
+                  isDark: isDark,
                   text: "Report",
                   color: Colors.red,
                   onPressed: _onReportTap,

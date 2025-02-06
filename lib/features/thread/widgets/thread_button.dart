@@ -11,6 +11,7 @@ Widget buildButtonGroup(List<Widget> children) {
 }
 
 Widget buildModalButton({
+  required bool isDark,
   required String text,
   Color? color,
   VoidCallback? onPressed,
@@ -19,21 +20,19 @@ Widget buildModalButton({
     color: Colors.grey.shade100,
     child: InkWell(
       onTap: onPressed,
-      // 클릭 시 iOS 스타일 효과
-      highlightColor: Colors.grey.shade800,
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: Sizes.size20,
           vertical: Sizes.size16,
         ),
-        color: Colors.grey.shade100,
+        color: isDark ? Colors.grey.shade800 : Colors.grey.shade100,
         width: double.infinity,
         child: Text(
           text,
           style: TextStyle(
-            color: color ?? Colors.black,
+            color: color ?? (isDark ? Colors.white : Colors.black),
             fontSize: Sizes.size16,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),

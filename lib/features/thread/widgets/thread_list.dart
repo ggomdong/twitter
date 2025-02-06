@@ -17,14 +17,14 @@ class ThreadsList extends StatelessWidget {
       contentPadding: EdgeInsets.only(
         left: Sizes.size16,
         right: Sizes.size24,
-        top: Sizes.size10,
-        bottom: Sizes.size10,
+        top: Sizes.size7,
+        bottom: Sizes.size7,
       ),
       title: Text(
         text,
         style: TextStyle(
           fontSize: Sizes.size18,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w400,
         ),
       ),
       trailing: FaIcon(

@@ -37,7 +37,8 @@ class _ThreadScreenState extends State<ThreadScreen> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(Sizes.size16)),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor:
+          isDarkMode(context) ? Colors.grey.shade900 : Colors.white,
       builder: (context) => ThreadModal(),
     );
   }

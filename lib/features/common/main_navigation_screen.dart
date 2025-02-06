@@ -26,7 +26,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(Sizes.size16)),
+      ),
+      backgroundColor:
+          isDarkMode(context) ? Colors.grey.shade900 : Colors.white,
       builder: (context) => ThreadPost(),
     );
   }
