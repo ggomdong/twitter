@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/features/activity/activity_screen.dart';
 import 'package:twitter/features/common/widgets/nav_tab.dart';
+import 'package:twitter/features/search/search_screen.dart';
 import 'package:twitter/features/thread/thread_screen.dart';
 import 'package:twitter/features/thread/widgets/thread_post.dart';
 import 'package:twitter/utils.dart';
@@ -50,20 +52,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(Sizes.size32),
-              child: Text("search", style: TextStyle(fontSize: Sizes.size32)),
-            ),
+            child: SearchScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(Sizes.size32),
-              child:
-                  Text("favorites", style: TextStyle(fontSize: Sizes.size32)),
-            ),
+            child: ActivityScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 4,

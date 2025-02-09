@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/thread/widgets/thread_modal.dart';
-import 'package:twitter/features/thread/thread_classes.dart';
+import 'package:twitter/features/thread/post_model.dart';
 import 'package:twitter/utils.dart';
 
 class ThreadScreen extends StatefulWidget {
