@@ -6,6 +6,7 @@ import 'package:twitter/features/common/widgets/nav_tab.dart';
 import 'package:twitter/features/search/search_screen.dart';
 import 'package:twitter/features/thread/thread_screen.dart';
 import 'package:twitter/features/thread/widgets/thread_post.dart';
+import 'package:twitter/features/users/user_profile_screen.dart';
 import 'package:twitter/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -60,11 +61,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(Sizes.size32),
-              child: Text("profile", style: TextStyle(fontSize: Sizes.size32)),
-            ),
+            child: UserProfileScreen(username: "Jane", tab: "threads"),
           )
         ],
       ),
