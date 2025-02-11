@@ -5,27 +5,37 @@ import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/thread/widgets/thread_modal.dart';
 import 'package:twitter/utils.dart';
 
-class ThreadSample extends StatelessWidget {
-  const ThreadSample({
+class ReplySample extends StatelessWidget {
+  const ReplySample({
     super.key,
     required this.avatarUrl,
     required this.username,
+    required this.elapsedMinutes,
     required this.text,
     required this.shareYn,
     this.shareAvatarUrl,
     this.shareUser,
     this.shareText,
-    this.shareImageUrl,
+    this.shareReplies,
+    required this.replyAvatarUrl,
+    required this.replyUser,
+    required this.replyElapsedMinutes,
+    required this.replyText,
   });
 
   final String avatarUrl;
   final String username;
+  final int elapsedMinutes;
   final String text;
   final bool shareYn;
   final String? shareAvatarUrl;
   final String? shareUser;
   final String? shareText;
-  final String? shareImageUrl;
+  final int? shareReplies;
+  final String replyAvatarUrl;
+  final String replyUser;
+  final int replyElapsedMinutes;
+  final String replyText;
 
   void _onThreadsModalTap(BuildContext context) async {
     await showModalBottomSheet(
@@ -42,6 +52,7 @@ class ThreadSample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Column(
       children: [
         Padding(
@@ -55,10 +66,26 @@ class ThreadSample extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  CircleAvatar(
-                    radius: Sizes.size24,
-                    backgroundColor: Colors.grey.shade300,
-                    foregroundImage: NetworkImage(avatarUrl),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          avatarUrl,
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Gaps.v10,
+                  Container(
+                    width: 2,
+                    height: shareYn
+                        ? Sizes.size96 + Sizes.size96 + Sizes.size32
+                        : Sizes.size64,
+                    color: Colors.grey.shade300,
                   ),
                 ],
               ),
@@ -66,24 +93,33 @@ class ThreadSample extends StatelessWidget {
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          username,
-                          style: TextStyle(
-                            fontSize: Sizes.size16,
-                            fontWeight: FontWeight.w700,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              username,
+                              style: TextStyle(
+                                fontSize: Sizes.size16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Gaps.h10,
+                            FaIcon(
+                              FontAwesomeIcons.solidCircleCheck,
+                              size: Sizes.size12,
+                              color: Colors.blue.shade700,
+                            ),
+                          ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "5h",
+                              convertTime(elapsedMinutes),
                               style: TextStyle(
                                 fontSize: Sizes.size16,
                                 fontWeight: FontWeight.w400,
@@ -110,7 +146,7 @@ class ThreadSample extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: Sizes.size16 + Sizes.size1,
+                        fontSize: Sizes.size16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -128,6 +164,7 @@ class ThreadSample extends StatelessWidget {
                               ),
                             ),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   children: [
@@ -161,13 +198,13 @@ class ThreadSample extends StatelessWidget {
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: Sizes.size20, right: Sizes.size10),
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(Sizes.size8),
-                                    child: Image.network(shareImageUrl!),
+                                Gaps.v24,
+                                Text(
+                                  "$shareReplies replies",
+                                  style: TextStyle(
+                                    fontSize: Sizes.size16 + Sizes.size1,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey.shade500,
                                   ),
                                 ),
                               ],
@@ -194,6 +231,88 @@ class ThreadSample extends StatelessWidget {
             ],
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.size16,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 20,
+                backgroundColor: Colors.grey.shade300,
+                foregroundImage: NetworkImage(
+                  replyAvatarUrl,
+                ),
+              ),
+              Gaps.h10,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          replyUser,
+                          style: TextStyle(
+                            fontSize: Sizes.size16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              convertTime(replyElapsedMinutes),
+                              style: TextStyle(
+                                fontSize: Sizes.size16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                            Gaps.h14,
+                            Text(
+                              "···",
+                              style: TextStyle(
+                                fontSize: Sizes.size16,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Text(
+                      replyText,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: Sizes.size16 + Sizes.size1,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Gaps.v16,
+                    Row(
+                      children: [
+                        FaIcon(FontAwesomeIcons.heart),
+                        Gaps.h20,
+                        FaIcon(FontAwesomeIcons.comment),
+                        Gaps.h20,
+                        FaIcon(FontAwesomeIcons.arrowsRotate),
+                        Gaps.h20,
+                        FaIcon(FontAwesomeIcons.paperPlane),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Gaps.v20,
         Container(
           height: 1,
           width: double.infinity,

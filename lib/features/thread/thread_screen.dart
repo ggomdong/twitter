@@ -18,18 +18,6 @@ class _ThreadScreenState extends State<ThreadScreen> {
   final List<Post> posts = List.generate(10, (index) => Post.generate())
     ..sort((a, b) => a.elapsedMinutes.compareTo(b.elapsedMinutes));
 
-  // elapsedMinutes에 따라 표기방법(분, 시간, 일)을 다르게 해주는 함수
-  String _convertTime(int minutes) {
-    switch (minutes) {
-      case <= 60:
-        return "${minutes}m";
-      case <= 1440:
-        return "${(minutes / 60).floor()}h";
-      default:
-        return "${(minutes / 1440).floor()}d";
-    }
-  }
-
   void _onThreadsModalTap() async {
     await showModalBottomSheet(
       context: context,
@@ -168,7 +156,7 @@ class _ThreadScreenState extends State<ThreadScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            _convertTime(post.elapsedMinutes),
+                                            convertTime(post.elapsedMinutes),
                                             style: TextStyle(
                                               fontSize: Sizes.size16,
                                               fontWeight: FontWeight.w400,

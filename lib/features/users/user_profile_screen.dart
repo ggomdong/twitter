@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/features/settings/settings_screen.dart';
+import 'package:twitter/features/common/main_navigation_screen.dart';
+import 'package:twitter/features/users/widgets/custom_button.dart';
 import 'package:twitter/features/users/widgets/persistent_tab_bar.dart';
+import 'package:twitter/features/users/widgets/reply_sample.dart';
 import 'package:twitter/features/users/widgets/thread_sample.dart';
 import 'package:twitter/utils.dart';
 
@@ -24,7 +26,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   void _onGearPressed() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const SettingsScreen(),
+        builder: (context) => const MainNavigationScreen(index: 5),
       ),
     );
   }
@@ -200,46 +202,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: Sizes.size40,
-                                vertical: Sizes.size5,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.grey.shade400,
-                                ),
-                              ),
-                              child: Text(
-                                "Edit profile",
-                                style: TextStyle(
-                                  fontSize: Sizes.size18,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.01,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: Sizes.size40,
-                                vertical: Sizes.size5,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.grey.shade400,
-                                ),
-                              ),
-                              child: Text(
-                                "Share profile",
-                                style: TextStyle(
-                                  fontSize: Sizes.size18,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.01,
-                                ),
-                              ),
-                            )
+                            CustomButton(text: "Edit profile"),
+                            CustomButton(text: "Share profile")
                           ],
                         ),
                         Gaps.v20,
@@ -255,15 +219,83 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             },
             body: TabBarView(
               children: [
-                Column(
+                ListView(
                   children: [
-                    ThreadSample(),
-                    ThreadSample(),
-                    ThreadSample(),
+                    ThreadSample(
+                      avatarUrl:
+                          "https://avatars.githubusercontent.com/u/63599714?v=4",
+                      username: "jane_mobbin",
+                      text:
+                          "Give @john_mobbin a follow if you want to see more travel content!",
+                      shareYn: false,
+                    ),
+                    ThreadSample(
+                      avatarUrl:
+                          "https://avatars.githubusercontent.com/u/63599714?v=4",
+                      username: "jane_mobbin",
+                      text: "Tea. Spilliage.",
+                      shareYn: true,
+                      shareAvatarUrl: "https://i.pravatar.cc/150?img=3",
+                      shareUser: "iwetmyyplants",
+                      shareText:
+                          "I'm just going to say what we are all thinking and knowing is about to go downity down: There is about to be some piping hot tea spillage on here daily that people will be ...",
+                      shareImageUrl:
+                          "https://picsum.photos/1200/900?random=516",
+                    ),
+                    ThreadSample(
+                      avatarUrl:
+                          "https://avatars.githubusercontent.com/u/63599714?v=4",
+                      username: "jane_mobbin",
+                      text:
+                          "I wanna ride a bicycle. But it's too dangerous for me.",
+                      shareYn: true,
+                      shareAvatarUrl: "https://i.pravatar.cc/150?img=4",
+                      shareUser: "bicycle_man",
+                      shareText:
+                          "Bicycles are parked on the wall. It goes well with the quiet wall. It feels like riding a bicycle along the riverside with warm sunlight. I want to feel it again.",
+                      shareImageUrl:
+                          "https://picsum.photos/1200/900?random=962",
+                    ),
                   ],
                 ),
-                const Center(
-                  child: Text('Page two'),
+                ListView(
+                  children: [
+                    ReplySample(
+                      avatarUrl: "https://i.pravatar.cc/150?img=5",
+                      username: "john_mobbin",
+                      elapsedMinutes: 100,
+                      text: "Always a dream to see the Medina in Morocco!",
+                      shareYn: true,
+                      shareAvatarUrl: "https://i.pravatar.cc/150?img=6",
+                      shareUser: "earthpix",
+                      shareText:
+                          "What is one place you're absolutely traveling to by next year?",
+                      shareReplies: 256,
+                      replyAvatarUrl:
+                          "https://avatars.githubusercontent.com/u/63599714?v=4",
+                      replyUser: "jane_mobbin",
+                      replyElapsedMinutes: 200,
+                      replyText: "See you there!",
+                    ),
+                    ReplySample(
+                      avatarUrl: "https://i.pravatar.cc/150?img=6",
+                      username: "larena.roob",
+                      elapsedMinutes: 255,
+                      text:
+                          "Dictum non consectetur a erat nam at lectus urna duis.",
+                      shareYn: true,
+                      shareAvatarUrl: "https://i.pravatar.cc/150?img=7",
+                      shareUser: "dariana_hamill",
+                      shareText:
+                          "Praesent semper feugiat nibh sed pulvinar proin gravida.",
+                      shareReplies: 182,
+                      replyAvatarUrl:
+                          "https://avatars.githubusercontent.com/u/63599714?v=4",
+                      replyUser: "jane_mobbin",
+                      replyElapsedMinutes: 480,
+                      replyText: "What are they saying???????",
+                    ),
+                  ],
                 ),
               ],
             ),

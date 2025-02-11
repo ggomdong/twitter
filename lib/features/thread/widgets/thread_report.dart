@@ -39,10 +39,11 @@ class ThreadReport extends StatelessWidget {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
+        body: Column(
+          children: [
+            Container(
+              color: isDark ? Colors.grey.shade900 : Colors.white,
+              child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 16,
@@ -70,17 +71,23 @@ class ThreadReport extends StatelessWidget {
                   ],
                 ),
               ),
-              Gaps.v10,
-              buildDivider(),
-              ThreadsList(text: "I just don't like it"),
-              ThreadsList(text: "It's unlawful content under NetzDG"),
-              ThreadsList(text: "It's spam"),
-              ThreadsList(text: "Hate speech or symbols"),
-              ThreadsList(text: "Nudity or sexual activity"),
-              ThreadsList(text: "Fearful articles"),
-              ThreadsList(text: "It's related to the real crime"),
-            ],
-          ),
+            ),
+            Gaps.v10,
+            buildDivider(),
+            Expanded(
+              child: ListView(
+                children: [
+                  ThreadsList(text: "I just don't like it"),
+                  ThreadsList(text: "It's unlawful content under NetzDG"),
+                  ThreadsList(text: "It's spam"),
+                  ThreadsList(text: "Hate speech or symbols"),
+                  ThreadsList(text: "Nudity or sexual activity"),
+                  ThreadsList(text: "Fearful articles"),
+                  ThreadsList(text: "It's related to the real crime"),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

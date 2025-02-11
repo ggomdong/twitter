@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/features/common/main_navigation_screen.dart';
+import 'package:twitter/features/settings/widgets/listtile_button.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -13,13 +14,33 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notifications = false;
+  void _onPrivacyPressed() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(index: 6),
+      ),
+    );
+  }
 
-  void _onNotificationsChanged(bool? newValue) {
-    if (newValue == null) return;
-    setState(() {
-      _notifications = newValue;
-    });
+  void _onShowModal() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text("Are you sure?"),
+        content: const Text("Please don't go"),
+        actions: [
+          CupertinoDialogAction(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("No"),
+          ),
+          CupertinoDialogAction(
+            onPressed: () => Navigator.of(context).pop(),
+            isDestructiveAction: true,
+            child: const Text("Yes"),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -28,18 +49,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              FaIcon(FontAwesomeIcons.chevronLeft, size: Sizes.size18),
-              Gaps.h5,
-              Text(
-                "Back",
-                style: TextStyle(
-                  fontSize: Sizes.size20,
+          child: GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                FaIcon(FontAwesomeIcons.chevronLeft, size: Sizes.size18),
+                Gaps.h5,
+                Text(
+                  "Back",
+                  style: TextStyle(
+                    fontSize: Sizes.size20,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         leadingWidth: 100,
@@ -50,67 +74,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
             fontWeight: FontWeight.w700,
           ),
         ),
+        shape: Border(
+          bottom: BorderSide(
+            color: Colors.grey,
+            width: 0.5,
+          ),
+        ),
       ),
       body: ListView(
         children: [
-          SwitchListTile.adaptive(
-            value: _notifications,
-            onChanged: _onNotificationsChanged,
-            title: const Text("Enable notifications"),
-            subtitle: const Text("They will be cute."),
+          ListTileButton(
+            leadingIcon: Icons.person_add_outlined,
+            text: "Follow and invite friends",
           ),
-          CheckboxListTile(
-            activeColor: Colors.black,
-            value: _notifications,
-            onChanged: _onNotificationsChanged,
-            title: const Text("Marketing emails"),
-            subtitle: const Text("We won't spam you."),
+          ListTileButton(
+            leadingIcon: FontAwesomeIcons.bell,
+            text: "Notifications",
           ),
-          ListTile(
-            onTap: () async {
-              final date = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1980),
-                lastDate: DateTime(2030),
-              );
-              if (kDebugMode) {
-                print(date);
-              }
-              if (!mounted) return;
-              final time = await showTimePicker(
-                context: context,
-                initialTime: TimeOfDay.now(),
-              );
-              if (kDebugMode) {
-                print(time);
-              }
-              if (!mounted) return;
-              final booking = await showDateRangePicker(
-                context: context,
-                firstDate: DateTime(1980),
-                lastDate: DateTime(2030),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData(
-                        appBarTheme: const AppBarTheme(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.black)),
-                    child: child!,
-                  );
-                },
-              );
-              if (kDebugMode) {
-                print(booking);
-              }
-            },
-            title: const Text("What is your birthday?"),
-            subtitle: const Text("I need to know!"),
+          ListTileButton(
+            leadingIcon: Icons.lock_outline,
+            text: "Privacy",
+            onPressed: _onPrivacyPressed,
+          ),
+          ListTileButton(
+            leadingIcon: FontAwesomeIcons.circleUser,
+            text: "Account",
+          ),
+          ListTileButton(
+            leadingIcon: FontAwesomeIcons.lifeRing,
+            text: "Help",
           ),
           const AboutListTile(
-            icon: Icon(Icons.info_outline),
+            icon: FaIcon(
+              Icons.info_outline,
+              size: Sizes.size32,
+            ),
+            applicationName: "",
             applicationVersion: "1.0",
             applicationLegalese: "Don't copy me.",
+          ),
+          Divider(
+            thickness: 0.5,
           ),
           ListTile(
             title: const Text(
@@ -120,26 +124,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             textColor: Colors.blue,
-            onTap: () {
-              showCupertinoDialog(
-                context: context,
-                builder: (context) => CupertinoAlertDialog(
-                  title: const Text("Are you sure?"),
-                  content: const Text("Please don't go"),
-                  actions: [
-                    CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("No"),
-                    ),
-                    CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
-                      isDestructiveAction: true,
-                      child: const Text("Yes"),
-                    ),
-                  ],
-                ),
-              );
-            },
+            onTap: _onShowModal,
           ),
         ],
       ),

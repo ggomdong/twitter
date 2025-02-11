@@ -4,20 +4,27 @@ import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/activity/activity_screen.dart';
 import 'package:twitter/features/common/widgets/nav_tab.dart';
 import 'package:twitter/features/search/search_screen.dart';
+import 'package:twitter/features/settings/privacy_screen.dart';
+import 'package:twitter/features/settings/settings_screen.dart';
 import 'package:twitter/features/thread/thread_screen.dart';
 import 'package:twitter/features/thread/widgets/thread_post.dart';
 import 'package:twitter/features/users/user_profile_screen.dart';
 import 'package:twitter/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
+  const MainNavigationScreen({
+    super.key,
+    this.index,
+  });
+
+  final int? index;
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 0;
+  late int _selectedIndex = widget.index ?? 0;
 
   void _onTap(int index) {
     setState(() {
@@ -62,6 +69,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           Offstage(
             offstage: _selectedIndex != 4,
             child: UserProfileScreen(username: "Jane", tab: "threads"),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 5,
+            child: SettingsScreen(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 6,
+            child: PrivacyScreen(),
           )
         ],
       ),
@@ -114,7 +129,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 selectedIndex: _selectedIndex,
               ),
               NavTab(
-                isSelected: _selectedIndex == 4,
+                isSelected: _selectedIndex == 4 ||
+                    _selectedIndex == 5 ||
+                    _selectedIndex == 6,
                 icon: FontAwesomeIcons.user,
                 selectedIcon: FontAwesomeIcons.solidUser,
                 onTap: () => _onTap(4),

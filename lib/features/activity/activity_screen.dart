@@ -79,18 +79,6 @@ class _ActivityScreenState extends State<ActivityScreen>
     setState(() {});
   }
 
-  // elapsedMinutes에 따라 표기방법(분, 시간, 일)을 다르게 해주는 함수
-  String _convertTime(int minutes) {
-    switch (minutes) {
-      case <= 60:
-        return "${minutes}m";
-      case <= 1440:
-        return "${(minutes / 60).floor()}h";
-      default:
-        return "${(minutes / 1440).floor()}d";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
@@ -269,7 +257,7 @@ class _ActivityScreenState extends State<ActivityScreen>
                       ),
                       Gaps.h5,
                       Text(
-                        _convertTime(activities[index].elapsedMinutes),
+                        convertTime(activities[index].elapsedMinutes),
                         style: TextStyle(
                           fontSize: Sizes.size16,
                           fontWeight: FontWeight.w400,

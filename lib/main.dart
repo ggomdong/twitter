@@ -3,6 +3,7 @@ import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/sign_up_screen.dart';
 import 'package:twitter/features/common/main_navigation_screen.dart';
 import 'package:twitter/features/onboarding/another_interests_screen.dart';
+import 'package:twitter/features/users/user_profile_screen.dart';
 
 void main() {
   runApp(const App());
@@ -68,7 +69,9 @@ class App extends StatelessWidget {
         ),
       ),
       // home: const SignUpScreen(),
-      home: const MainNavigationScreen(),
+      home: const MainNavigationScreen(
+        index: 4,
+      ),
     );
   }
 }
