@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/features/photo/camera_screen.dart';
 import 'package:twitter/utils.dart';
 
 class ThreadPost extends StatefulWidget {
@@ -15,6 +19,7 @@ class _ThreadPostState extends State<ThreadPost> {
   final TextEditingController _textEditingController = TextEditingController();
 
   String _thread = "";
+  final List<File> _selectedPhotos = [];
 
   @override
   void initState() {
@@ -40,12 +45,56 @@ class _ThreadPostState extends State<ThreadPost> {
     Navigator.of(context).pop();
   }
 
+  void _onCamera() async {
+    final pickedPhoto = await Navigator.of(context).push<XFile?>(
+      MaterialPageRoute(
+        builder: (context) => CameraScreen(),
+      ),
+    );
+
+    if (pickedPhoto != null) {
+      setState(() {
+        _selectedPhotos.add(File(pickedPhoto.path)); // 리스트에 추가
+      });
+    }
+  }
+
   void _onReplyTap() {
     return;
   }
 
   void _onPostTap() {
     if (_thread.isEmpty) return;
+  }
+
+  Widget _buildPhotoPreview() {
+    return Wrap(
+      children: _selectedPhotos.map(
+        (photo) {
+          return Container(
+            clipBehavior: Clip.hardEdge,
+            height: 400,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Stack(
+              children: [
+                Image.file(photo),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: FaIcon(
+                    FontAwesomeIcons.solidCircleXmark,
+                    color: Colors.grey.shade700,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ).toList(),
+    );
   }
 
   @override
@@ -99,102 +148,109 @@ class _ThreadPostState extends State<ThreadPost> {
               ),
             ),
           ),
-          body: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.size16,
-                  vertical: Sizes.size16,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                    "https://i.pravatar.cc/150",
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: Sizes.size16,
+                    vertical: Sizes.size16,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      "https://i.pravatar.cc/150",
+                                    ),
+                                    fit: BoxFit.cover,
                                   ),
-                                  fit: BoxFit.cover,
                                 ),
+                              ),
+                            ],
+                          ),
+                          Gaps.v10,
+                          Container(
+                            width: 2,
+                            height: size.height * 0.06,
+                            color: Colors.grey.shade300,
+                          ),
+                          Gaps.v10,
+                          Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  "https://i.pravatar.cc/150",
+                                ),
+                                fit: BoxFit.cover,
+                                opacity: 0.4,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Gaps.h16,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "ggomdong",
+                              style: TextStyle(
+                                fontSize: Sizes.size16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            TextField(
+                              controller: _textEditingController,
+                              autocorrect: false,
+                              maxLines: null,
+                              textAlignVertical: TextAlignVertical.top,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Start a thread...",
+                                hintStyle: TextStyle(
+                                  color: isDark
+                                      ? Colors.grey.shade50
+                                      : Colors.grey.shade600,
+                                  fontSize: Sizes.size16,
+                                ),
+                              ),
+                            ),
+                            Gaps.v5,
+                            _buildPhotoPreview(),
+                            Gaps.v5,
+                            GestureDetector(
+                              onTap: _onCamera,
+                              child: FaIcon(
+                                FontAwesomeIcons.paperclip,
+                                size: Sizes.size20,
+                                color: isDark
+                                    ? Colors.grey.shade100
+                                    : Colors.grey.shade500,
                               ),
                             ),
                           ],
                         ),
-                        Gaps.v10,
-                        Container(
-                          width: 2,
-                          height: size.height * 0.06,
-                          color: Colors.grey.shade300,
-                        ),
-                        Gaps.v10,
-                        Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                "https://i.pravatar.cc/150",
-                              ),
-                              fit: BoxFit.cover,
-                              opacity: 0.4,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Gaps.h16,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "ggomdong",
-                            style: TextStyle(
-                              fontSize: Sizes.size16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          TextField(
-                            controller: _textEditingController,
-                            autocorrect: false,
-                            maxLines: 1,
-                            textAlignVertical: TextAlignVertical.top,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Start a thread...",
-                              hintStyle: TextStyle(
-                                color: isDark
-                                    ? Colors.grey.shade50
-                                    : Colors.grey.shade600,
-                                fontSize: Sizes.size16,
-                              ),
-                            ),
-                          ),
-                          Gaps.v5,
-                          FaIcon(
-                            FontAwesomeIcons.paperclip,
-                            size: Sizes.size20,
-                            color: isDark
-                                ? Colors.grey.shade100
-                                : Colors.grey.shade500,
-                          ),
-                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           bottomSheet: Container(
             color: isDark ? Colors.grey.shade900 : Colors.white,
