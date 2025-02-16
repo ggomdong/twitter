@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gal/gal.dart';
 import 'package:twitter/features/users/widgets/custom_button.dart';
+import 'package:twitter/utils.dart';
 
 class PhotoPreviewScreen extends StatefulWidget {
   final XFile photo;
@@ -41,9 +42,10 @@ class _PhotoPreviewScreenState extends State<PhotoPreviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: isDark ? Colors.black : Colors.white,
       appBar: AppBar(
         title: const Text('Preview photo'),
         actions: [
@@ -69,7 +71,7 @@ class _PhotoPreviewScreenState extends State<PhotoPreviewScreen> {
       bottomSheet: Container(
         padding: EdgeInsets.only(bottom: 20),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? Colors.black : Colors.white,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

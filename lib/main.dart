@@ -70,7 +70,7 @@ class App extends StatelessWidget {
       ),
       // home: const SignUpScreen(),
       home: const MainNavigationScreen(
-        index: 4,
+        index: 0,
       ),
     );
   }

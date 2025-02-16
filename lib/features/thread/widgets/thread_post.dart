@@ -73,7 +73,7 @@ class _ThreadPostState extends State<ThreadPost> {
         (photo) {
           return Container(
             clipBehavior: Clip.hardEdge,
-            height: 400,
+            height: 300,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -84,9 +84,14 @@ class _ThreadPostState extends State<ThreadPost> {
                 Positioned(
                   top: 10,
                   right: 10,
-                  child: FaIcon(
-                    FontAwesomeIcons.solidCircleXmark,
-                    color: Colors.grey.shade700,
+                  child: GestureDetector(
+                    onTap: () => setState(() {
+                      _selectedPhotos.remove(photo);
+                    }),
+                    child: FaIcon(
+                      FontAwesomeIcons.solidCircleXmark,
+                      color: Colors.grey.shade700,
+                    ),
                   ),
                 ),
               ],

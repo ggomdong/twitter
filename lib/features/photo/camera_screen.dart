@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,6 +23,8 @@ class _CameraScreenState extends State<CameraScreen>
   bool _hasPermission = false;
   bool _isSelfieMode = false;
   bool _isCameraInitialized = false;
+
+  late final bool _noCamera = kDebugMode && Platform.isIOS;
 
   late FlashMode _flashMode = FlashMode.off;
   CameraController? _cameraController;
@@ -68,11 +73,19 @@ class _CameraScreenState extends State<CameraScreen>
   @override
   void initState() {
     super.initState();
-    initPermissions();
+    if (!_noCamera) {
+      initPermissions();
+    } else {
+      setState(() {
+        _hasPermission = true;
+      });
+    }
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (_noCamera) return;
     if (!_hasPermission) return;
     if (!_isCameraInitialized) return;
     if (state == AppLifecycleState.inactive) {
