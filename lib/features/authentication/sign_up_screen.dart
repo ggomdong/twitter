@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/create_screen.dart';
@@ -9,10 +10,13 @@ import 'package:twitter/features/common/common_app_bar.dart';
 import 'package:twitter/utils.dart';
 
 class SignUpScreen extends StatelessWidget {
+  static const routeURL = "/";
+  static const routeName = "signUp";
   const SignUpScreen({super.key});
 
   void _onCreateTap(BuildContext context) {
-    Navigator.of(context).push(
+    Navigator.push(
+      context,
       MaterialPageRoute(
         builder: (context) => const CreateScreen(
           name: "",
@@ -25,11 +29,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   void _onLoginTap(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
-      ),
-    );
+    context.pushNamed(LoginScreen.routeName);
   }
 
   @override

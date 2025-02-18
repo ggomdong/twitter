@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/widgets/form_button.dart';
@@ -119,12 +120,7 @@ class _AnotherInterestsScreenState extends State<AnotherInterestsScreen> {
   }
 
   void _onTapNavigation() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => MainNavigationScreen(),
-      ),
-      (route) => false,
-    );
+    context.go("/home");
   }
 
   @override

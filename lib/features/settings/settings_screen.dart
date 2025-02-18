@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/common/main_navigation_screen.dart';
@@ -15,11 +16,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   void _onPrivacyPressed() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const MainNavigationScreen(index: 6),
-      ),
-    );
+    context.go("/settings/privacy");
   }
 
   void _onShowModal() {
@@ -50,7 +47,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
         leading: Padding(
           padding: const EdgeInsets.all(16.0),
           child: GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
+            onTap: () {
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              } else {
+                context.go("/profile"); // pop이 불가능하면 profile로 이동
+              }
+            },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

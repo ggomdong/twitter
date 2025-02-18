@@ -7,6 +7,8 @@ import 'package:twitter/features/thread/post_model.dart';
 import 'package:twitter/utils.dart';
 
 class ThreadScreen extends StatefulWidget {
+  static const routeURL = "/";
+  static const routeName = "home";
   const ThreadScreen({super.key});
 
   @override

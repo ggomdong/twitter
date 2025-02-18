@@ -123,11 +123,11 @@ class _OtpScreenState extends State<OtpScreen> {
 
   void _onPasswordTap() {
     if (!_isOtpCompleted) return;
-    Navigator.of(context).pushAndRemoveUntil(
+    Navigator.push(
+      context,
       MaterialPageRoute(
         builder: (context) => PasswordScreen(),
       ),
-      (route) => false,
     );
   }
 

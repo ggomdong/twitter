@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/activity/activity_screen.dart';
 import 'package:twitter/features/common/widgets/nav_tab.dart';
 import 'package:twitter/features/search/search_screen.dart';
-import 'package:twitter/features/settings/privacy_screen.dart';
 import 'package:twitter/features/settings/settings_screen.dart';
 import 'package:twitter/features/thread/thread_screen.dart';
 import 'package:twitter/features/thread/widgets/thread_post.dart';
@@ -12,21 +12,46 @@ import 'package:twitter/features/users/user_profile_screen.dart';
 import 'package:twitter/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
+  static const String routeName = "mainNavigation";
   const MainNavigationScreen({
     super.key,
-    this.index,
+    required this.tab,
+    this.child,
   });
 
-  final int? index;
+  final String tab;
+  final Widget? child;
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  late int _selectedIndex = widget.index ?? 0;
+  final List<String> _tabs = [
+    "",
+    "search",
+    "xx",
+    "activity",
+    "profile",
+    "settings",
+  ];
+
+  late int _selectedIndex =
+      _tabs.contains(widget.tab) ? _tabs.indexOf(widget.tab) : 0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final currentTab = GoRouter.of(context).location.split('/')[1];
+    if (_tabs.contains(currentTab)) {
+      _selectedIndex = _tabs.indexOf(currentTab);
+    } else {
+      _selectedIndex = 0; // 기본값 profile
+    }
+  }
 
   void _onTap(int index) {
+    context.go("/${_tabs[index]}");
     setState(() {
       _selectedIndex = index;
     });
@@ -74,10 +99,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             offstage: _selectedIndex != 5,
             child: SettingsScreen(),
           ),
-          Offstage(
-            offstage: _selectedIndex != 6,
-            child: PrivacyScreen(),
-          )
+          if (widget.child != null) widget.child!, // ✅ PrivacyScreen 표시
         ],
       ),
       bottomNavigationBar: Container(

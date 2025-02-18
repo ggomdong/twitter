@@ -32,7 +32,8 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
 
   void _onSignupTap() {
     if (!_notifications) return;
-    Navigator.of(context).push(
+    Navigator.push(
+      context,
       MaterialPageRoute(
         builder: (context) => CreateScreen(
           name: widget.name,

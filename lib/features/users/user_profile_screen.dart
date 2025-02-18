@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/common/main_navigation_screen.dart';
@@ -24,11 +25,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   void _onGearPressed() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const MainNavigationScreen(index: 5),
-      ),
-    );
+    context.go("/settings");
   }
 
   @override

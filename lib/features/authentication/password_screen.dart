@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/authentication/widgets/form_button.dart';
@@ -47,13 +48,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
 
   void _onInterestsTap() {
     if (!_isPasswordValid()) return;
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const InterestsScreen(),
-      ),
-      (route) => false,
-    );
+    context.goNamed(InterestsScreen.routeName);
   }
 
   void _onClearTap() {

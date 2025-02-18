@@ -117,7 +117,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   CircleAvatar(
                     backgroundImage: NetworkImage(users[index].avatarUrl),
                   ),
-                  Gaps.v16,
+                  Gaps.v8,
                 ],
               ),
               title: Column(

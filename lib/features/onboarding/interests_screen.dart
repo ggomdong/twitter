@@ -31,6 +31,8 @@ const interests = {
 };
 
 class InterestsScreen extends StatefulWidget {
+  static const routeURL = "/onboarding";
+  static const routeName = "interestsScreen";
   const InterestsScreen({super.key});
 
   @override
@@ -55,7 +57,8 @@ class _InterestsScreenState extends State<InterestsScreen> {
 
   void _onAnotherInterestsTap() {
     if (_selectedInterests.length < 3) return;
-    Navigator.of(context).push(
+    Navigator.push(
+      context,
       MaterialPageRoute(
         builder: (context) => const AnotherInterestsScreen(),
       ),

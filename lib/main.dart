@@ -4,6 +4,7 @@ import 'package:twitter/features/authentication/sign_up_screen.dart';
 import 'package:twitter/features/common/main_navigation_screen.dart';
 import 'package:twitter/features/onboarding/another_interests_screen.dart';
 import 'package:twitter/features/users/user_profile_screen.dart';
+import 'package:twitter/router.dart';
 
 void main() {
   runApp(const App());
@@ -14,7 +15,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: 'Twitter Clone',
       themeMode: ThemeMode.system,
@@ -67,10 +69,6 @@ class App extends StatelessWidget {
         bottomAppBarTheme: BottomAppBarTheme(
           color: Colors.grey.shade900,
         ),
-      ),
-      // home: const SignUpScreen(),
-      home: const MainNavigationScreen(
-        index: 0,
       ),
     );
   }
