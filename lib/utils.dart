@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:twitter/features/view_models/config_vm.dart';
 
 bool isDarkMode(BuildContext context) =>
-    MediaQuery.of(context).platformBrightness == Brightness.dark;
+    context.read<ConfigViewModel>().darkmode;
 
 enum LeadingType { cancel, arrow, none }
 

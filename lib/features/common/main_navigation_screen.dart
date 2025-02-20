@@ -5,7 +5,7 @@ import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/features/activity/activity_screen.dart';
 import 'package:twitter/features/common/widgets/nav_tab.dart';
 import 'package:twitter/features/search/search_screen.dart';
-import 'package:twitter/features/settings/settings_screen.dart';
+import 'package:twitter/features/views/settings_screen.dart';
 import 'package:twitter/features/thread/thread_screen.dart';
 import 'package:twitter/features/thread/widgets/thread_post.dart';
 import 'package:twitter/features/users/user_profile_screen.dart';
@@ -39,6 +39,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   late int _selectedIndex =
       _tabs.contains(widget.tab) ? _tabs.indexOf(widget.tab) : 0;
 
+  // 최초 로딩시 라우팅을 적용함. url을 직접 쳤을때 대응을 위함
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -46,7 +47,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     if (_tabs.contains(currentTab)) {
       _selectedIndex = _tabs.indexOf(currentTab);
     } else {
-      _selectedIndex = 0; // 기본값 profile
+      _selectedIndex = 0;
     }
   }
 
@@ -99,7 +100,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             offstage: _selectedIndex != 5,
             child: SettingsScreen(),
           ),
-          if (widget.child != null) widget.child!, // ✅ PrivacyScreen 표시
+          if (widget.child != null) widget.child!, // PrivacyScreen 표시
         ],
       ),
       bottomNavigationBar: Container(

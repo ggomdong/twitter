@@ -15,7 +15,7 @@ class PersistentTabBar extends SliverPersistentHeaderDelegate {
         splashFactory: NoSplash.splashFactory,
         indicatorSize: TabBarIndicatorSize.tab,
         indicatorWeight: 2,
-        indicatorColor: Colors.black,
+        indicatorColor: isDark ? Colors.white : Colors.black,
         labelColor: isDark ? Colors.white : Colors.black,
         unselectedLabelColor: Colors.grey.shade500,
         labelPadding: const EdgeInsets.symmetric(

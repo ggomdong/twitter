@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/utils.dart';
 
 class ListTileButton extends StatelessWidget {
   const ListTileButton({
@@ -17,18 +18,22 @@ class ListTileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.size6),
       child: ListTile(
+        tileColor: isDark ? Colors.black : Colors.white,
         onTap: onPressed,
         leading: Icon(
           leadingIcon,
           size: Sizes.size24,
+          color: isDark ? Colors.white : Colors.black,
         ),
         title: Text(
           text,
           style: TextStyle(
             fontSize: Sizes.size18,
+            color: isDark ? Colors.white : Colors.black,
           ),
         ),
         trailing: Icon(

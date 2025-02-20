@@ -37,6 +37,7 @@ class _ThreadScreenState extends State<ThreadScreen> {
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
     return Scaffold(
+      backgroundColor: isDark ? Colors.black : Colors.white,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -44,11 +45,13 @@ class _ThreadScreenState extends State<ThreadScreen> {
               title: FaIcon(
                 FontAwesomeIcons.threads,
                 size: Sizes.size40,
+                color: isDark ? Colors.white : Colors.black,
               ),
               centerTitle: true,
               floating: true,
               snap: true,
               expandedHeight: 80,
+              backgroundColor: isDark ? Colors.black : Colors.white,
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
@@ -142,6 +145,9 @@ class _ThreadScreenState extends State<ThreadScreen> {
                                             style: TextStyle(
                                               fontSize: Sizes.size16,
                                               fontWeight: FontWeight.w700,
+                                              color: isDark
+                                                  ? Colors.white
+                                                  : Colors.black,
                                             ),
                                           ),
                                           Gaps.h10,
@@ -173,6 +179,9 @@ class _ThreadScreenState extends State<ThreadScreen> {
                                               style: TextStyle(
                                                 fontSize: Sizes.size16,
                                                 fontWeight: FontWeight.w900,
+                                                color: isDark
+                                                    ? Colors.white
+                                                    : Colors.black,
                                               ),
                                             ),
                                           ),
@@ -188,6 +197,8 @@ class _ThreadScreenState extends State<ThreadScreen> {
                                     style: TextStyle(
                                       fontSize: Sizes.size16,
                                       fontWeight: FontWeight.w500,
+                                      color:
+                                          isDark ? Colors.white : Colors.black,
                                     ),
                                   ),
                                   if (post.imageUrls.isNotEmpty)
@@ -221,13 +232,33 @@ class _ThreadScreenState extends State<ThreadScreen> {
                                   Gaps.v16,
                                   Row(
                                     children: [
-                                      FaIcon(FontAwesomeIcons.heart),
+                                      FaIcon(
+                                        FontAwesomeIcons.heart,
+                                        color: isDark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
                                       Gaps.h20,
-                                      FaIcon(FontAwesomeIcons.comment),
+                                      FaIcon(
+                                        FontAwesomeIcons.comment,
+                                        color: isDark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
                                       Gaps.h20,
-                                      FaIcon(FontAwesomeIcons.arrowsRotate),
+                                      FaIcon(
+                                        FontAwesomeIcons.arrowsRotate,
+                                        color: isDark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
                                       Gaps.h20,
-                                      FaIcon(FontAwesomeIcons.paperPlane),
+                                      FaIcon(
+                                        FontAwesomeIcons.paperPlane,
+                                        color: isDark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
                                     ],
                                   ),
                                   Gaps.v16,

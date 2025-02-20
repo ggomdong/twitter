@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/features/authentication/sign_up_screen.dart';
-import 'package:twitter/features/common/main_navigation_screen.dart';
-import 'package:twitter/features/onboarding/another_interests_screen.dart';
-import 'package:twitter/features/users/user_profile_screen.dart';
+import 'package:twitter/features/repos/config_repo.dart';
+import 'package:twitter/features/view_models/config_vm.dart';
 import 'package:twitter/router.dart';
 
-void main() {
-  runApp(const App());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ],
+  );
+
+  final preferences = await SharedPreferences.getInstance();
+  final repository = ConfigRepository(preferences);
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ConfigViewModel(repository),
+        ),
+      ],
+      child: const App(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {

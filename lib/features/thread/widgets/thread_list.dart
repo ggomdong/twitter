@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/utils.dart';
 
 class ThreadsList extends StatelessWidget {
   const ThreadsList({
@@ -12,6 +13,7 @@ class ThreadsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return ListTile(
       // ListTile 크기 변경
       contentPadding: EdgeInsets.only(
@@ -25,6 +27,7 @@ class ThreadsList extends StatelessWidget {
         style: TextStyle(
           fontSize: Sizes.size18,
           fontWeight: FontWeight.w400,
+          color: isDark ? Colors.white : Colors.black,
         ),
       ),
       trailing: FaIcon(

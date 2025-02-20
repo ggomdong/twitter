@@ -3,8 +3,8 @@ import 'package:twitter/features/authentication/login_screen.dart';
 import 'package:twitter/features/authentication/sign_up_screen.dart';
 import 'package:twitter/features/common/main_navigation_screen.dart';
 import 'package:twitter/features/onboarding/interests_screen.dart';
-import 'package:twitter/features/settings/privacy_screen.dart';
-import 'package:twitter/features/settings/settings_screen.dart';
+import 'package:twitter/features/views/privacy_screen.dart';
+import 'package:twitter/features/views/settings_screen.dart';
 import 'package:twitter/features/thread/thread_screen.dart';
 
 final router = GoRouter(

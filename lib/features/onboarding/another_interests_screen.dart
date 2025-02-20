@@ -120,7 +120,7 @@ class _AnotherInterestsScreenState extends State<AnotherInterestsScreen> {
   }
 
   void _onTapNavigation() {
-    context.go("/home");
+    context.go("/");
   }
 
   @override

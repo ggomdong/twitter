@@ -42,6 +42,7 @@ class ThreadSample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Column(
       children: [
         Padding(
@@ -77,6 +78,7 @@ class ThreadSample extends StatelessWidget {
                           style: TextStyle(
                             fontSize: Sizes.size16,
                             fontWeight: FontWeight.w700,
+                            color: isDark ? Colors.white : Colors.black,
                           ),
                         ),
                         Row(
@@ -98,6 +100,7 @@ class ThreadSample extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: Sizes.size16,
                                   fontWeight: FontWeight.w900,
+                                  color: isDark ? Colors.white : Colors.black,
                                 ),
                               ),
                             ),
@@ -112,6 +115,7 @@ class ThreadSample extends StatelessWidget {
                       style: TextStyle(
                         fontSize: Sizes.size16 + Sizes.size1,
                         fontWeight: FontWeight.w500,
+                        color: isDark ? Colors.white : Colors.black,
                       ),
                     ),
                     if (shareYn)
@@ -143,6 +147,9 @@ class ThreadSample extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: Sizes.size16,
                                         fontWeight: FontWeight.w600,
+                                        color: isDark
+                                            ? Colors.white
+                                            : Colors.black,
                                       ),
                                     ),
                                     Gaps.h5,
@@ -159,6 +166,7 @@ class ThreadSample extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: Sizes.size16,
                                     fontWeight: FontWeight.w500,
+                                    color: isDark ? Colors.white : Colors.black,
                                   ),
                                 ),
                                 Padding(
@@ -178,13 +186,25 @@ class ThreadSample extends StatelessWidget {
                     Gaps.v16,
                     Row(
                       children: [
-                        FaIcon(FontAwesomeIcons.heart),
+                        FaIcon(
+                          FontAwesomeIcons.heart,
+                          color: isDark ? Colors.white : Colors.black,
+                        ),
                         Gaps.h20,
-                        FaIcon(FontAwesomeIcons.comment),
+                        FaIcon(
+                          FontAwesomeIcons.comment,
+                          color: isDark ? Colors.white : Colors.black,
+                        ),
                         Gaps.h20,
-                        FaIcon(FontAwesomeIcons.arrowsRotate),
+                        FaIcon(
+                          FontAwesomeIcons.arrowsRotate,
+                          color: isDark ? Colors.white : Colors.black,
+                        ),
                         Gaps.h20,
-                        FaIcon(FontAwesomeIcons.paperPlane),
+                        FaIcon(
+                          FontAwesomeIcons.paperPlane,
+                          color: isDark ? Colors.white : Colors.black,
+                        ),
                       ],
                     ),
                     Gaps.v16,
@@ -197,7 +217,7 @@ class ThreadSample extends StatelessWidget {
         Container(
           height: 1,
           width: double.infinity,
-          color: Colors.grey.shade200,
+          color: isDark ? Colors.grey.shade700 : Colors.grey.shade200,
         ),
       ],
     );

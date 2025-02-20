@@ -56,6 +56,7 @@ class ThreadReport extends StatelessWidget {
                       style: TextStyle(
                         fontSize: Sizes.size18,
                         fontWeight: FontWeight.w700,
+                        color: isDark ? Colors.white : Colors.black,
                       ),
                     ),
                     Gaps.v6,

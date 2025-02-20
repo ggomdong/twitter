@@ -68,6 +68,7 @@ class _ThreadPostState extends State<ThreadPost> {
   }
 
   Widget _buildPhotoPreview() {
+    final isDark = isDarkMode(context);
     return Wrap(
       children: _selectedPhotos.map(
         (photo) {
@@ -140,6 +141,7 @@ class _ThreadPostState extends State<ThreadPost> {
                     "Cancel",
                     style: TextStyle(
                       fontSize: Sizes.size18,
+                      color: isDark ? Colors.white : Colors.black,
                     ),
                   ),
                 ),
@@ -149,6 +151,7 @@ class _ThreadPostState extends State<ThreadPost> {
                 style: TextStyle(
                   fontSize: Sizes.size18 + Sizes.size1,
                   fontWeight: FontWeight.w700,
+                  color: isDark ? Colors.white : Colors.black,
                 ),
               ),
             ),
@@ -217,6 +220,7 @@ class _ThreadPostState extends State<ThreadPost> {
                               style: TextStyle(
                                 fontSize: Sizes.size16,
                                 fontWeight: FontWeight.w700,
+                                color: isDark ? Colors.white : Colors.black,
                               ),
                             ),
                             TextField(

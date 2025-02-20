@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/utils.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -11,6 +12,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: Sizes.size40 + Sizes.size3,
@@ -28,6 +30,7 @@ class CustomButton extends StatelessWidget {
           fontSize: Sizes.size18,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.01,
+          color: isDark ? Colors.white : Colors.black,
         ),
       ),
     );
