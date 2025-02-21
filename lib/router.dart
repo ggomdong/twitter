@@ -1,11 +1,11 @@
 import 'package:go_router/go_router.dart';
-import 'package:twitter/features/authentication/login_screen.dart';
-import 'package:twitter/features/authentication/sign_up_screen.dart';
-import 'package:twitter/features/common/main_navigation_screen.dart';
-import 'package:twitter/features/onboarding/interests_screen.dart';
-import 'package:twitter/features/views/privacy_screen.dart';
-import 'package:twitter/features/views/settings_screen.dart';
-import 'package:twitter/features/thread/thread_screen.dart';
+import 'package:twitter/views/authentication/login_screen.dart';
+import 'package:twitter/views/authentication/sign_up_screen.dart';
+import 'package:twitter/views/common/main_navigation_screen.dart';
+import 'package:twitter/views/onboarding/interests_screen.dart';
+import 'package:twitter/views/privacy_screen.dart';
+import 'package:twitter/views/settings_screen.dart';
+import 'package:twitter/views/thread/thread_screen.dart';
 
 final router = GoRouter(
   routes: [

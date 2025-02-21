@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/features/repos/config_repo.dart';
-import 'package:twitter/features/view_models/config_vm.dart';
+import 'package:twitter/repos/config_repo.dart';
+import 'package:twitter/view_models/config_vm.dart';
 import 'package:twitter/router.dart';
 
 void main() async {
@@ -20,10 +20,10 @@ void main() async {
   final repository = ConfigRepository(preferences);
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => ConfigViewModel(repository),
+    ProviderScope(
+      overrides: [
+        configProvider.overrideWith(
+          () => ConfigViewModel(repository),
         ),
       ],
       child: const App(),
@@ -31,12 +31,12 @@ void main() async {
   );
 }
 
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final isDark = context.watch<ConfigViewModel>().darkmode;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = ref.watch(configProvider).darkMode;
     return MaterialApp.router(
       routerConfig: router,
       debugShowCheckedModeBanner: false,

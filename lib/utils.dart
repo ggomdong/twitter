@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:twitter/features/view_models/config_vm.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:twitter/view_models/config_vm.dart';
 
-bool isDarkMode(BuildContext context) =>
-    context.read<ConfigViewModel>().darkmode;
+bool isDarkMode(WidgetRef ref) => ref.watch(configProvider).darkMode;
 
 enum LeadingType { cancel, arrow, none }
 
