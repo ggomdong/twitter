@@ -32,7 +32,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
     return Scaffold(
-      backgroundColor: isDark ? Colors.black : Colors.white,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: SafeArea(
         child: DefaultTabController(
           initialIndex: widget.tab == "replies" ? 1 : 0,
@@ -41,30 +41,26 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  backgroundColor: isDark ? Colors.black : Colors.white,
                   leading: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: FaIcon(
                       FontAwesomeIcons.globe,
                       size: Sizes.size24,
-                      color: isDark ? Colors.white : Colors.black,
                     ),
                   ),
                   actions: [
                     IconButton(
                       onPressed: () {},
-                      icon: FaIcon(
+                      icon: const FaIcon(
                         FontAwesomeIcons.instagram,
                         size: Sizes.size28,
-                        color: isDark ? Colors.white : Colors.black,
                       ),
                     ),
                     IconButton(
                       onPressed: _onGearPressed,
-                      icon: FaIcon(
+                      icon: const FaIcon(
                         FontAwesomeIcons.bars,
                         size: Sizes.size28,
-                        color: isDark ? Colors.white : Colors.black,
                       ),
                     )
                   ],
@@ -89,7 +85,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   style: TextStyle(
                                     fontSize: Sizes.size28,
                                     fontWeight: FontWeight.w700,
-                                    color: isDark ? Colors.white : Colors.black,
                                   ),
                                 ),
                                 Gaps.v3,
@@ -99,9 +94,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                       "jane_mobbin",
                                       style: TextStyle(
                                         fontSize: Sizes.size18,
-                                        color: isDark
-                                            ? Colors.white
-                                            : Colors.black,
                                       ),
                                     ),
                                     Gaps.h5,
@@ -119,7 +111,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                         "threads.net",
                                         style: TextStyle(
                                           fontSize: Sizes.size12,
-                                          color: Colors.grey.shade600,
+                                          color: Colors.grey.shade500,
                                         ),
                                       ),
                                     ),
@@ -130,7 +122,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   "Plant enthusiast!",
                                   style: TextStyle(
                                     fontSize: Sizes.size18,
-                                    color: isDark ? Colors.white : Colors.black,
                                   ),
                                 ),
                                 Gaps.v10,

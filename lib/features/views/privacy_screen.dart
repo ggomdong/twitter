@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
@@ -28,9 +26,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
     return Scaffold(
-      backgroundColor: isDark ? Colors.black : Colors.white,
       appBar: AppBar(
-        backgroundColor: isDark ? Colors.black : Colors.white,
         leading: Padding(
           padding: const EdgeInsets.all(16.0),
           child: GestureDetector(
@@ -38,17 +34,12 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FaIcon(
-                  FontAwesomeIcons.chevronLeft,
-                  size: Sizes.size18,
-                  color: isDark ? Colors.white : Colors.black,
-                ),
+                FaIcon(FontAwesomeIcons.chevronLeft, size: Sizes.size18),
                 Gaps.h5,
                 Text(
                   "Back",
                   style: TextStyle(
                     fontSize: Sizes.size20,
-                    color: isDark ? Colors.white : Colors.black,
                   ),
                 ),
               ],
@@ -56,12 +47,11 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
           ),
         ),
         leadingWidth: 100,
-        title: Text(
+        title: const Text(
           'Privacy',
           style: TextStyle(
             fontSize: Sizes.size20,
             fontWeight: FontWeight.w700,
-            color: isDark ? Colors.white : Colors.black,
           ),
         ),
         shape: Border(
@@ -74,24 +64,19 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
       body: ListView(
         children: [
           SwitchListTile.adaptive(
-            tileColor: isDark ? Colors.black : Colors.white,
             contentPadding: EdgeInsets.symmetric(
               horizontal: Sizes.size20,
             ),
             value: _notifications,
             onChanged: _onNotificationsChanged,
             activeColor: isDark ? Colors.grey.shade700 : Colors.black,
-            title: Text(
+            title: const Text(
               "Private profile",
               style: TextStyle(
                 fontSize: Sizes.size18,
-                color: isDark ? Colors.white : Colors.black,
               ),
             ),
-            secondary: Icon(
-              Icons.lock_outline,
-              color: isDark ? Colors.white : Colors.black,
-            ),
+            secondary: Icon(Icons.lock_outline),
           ),
           ListTileButton(
             leadingIcon: FontAwesomeIcons.threads,
@@ -124,7 +109,6 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                 style: TextStyle(
                   fontSize: Sizes.size18,
                   fontWeight: FontWeight.w600,
-                  color: isDark ? Colors.white : Colors.black,
                 ),
               ),
               subtitle: Text(

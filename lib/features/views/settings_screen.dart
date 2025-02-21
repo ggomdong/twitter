@@ -47,9 +47,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
     return Scaffold(
-      backgroundColor: isDark ? Colors.black : Colors.white,
       appBar: AppBar(
-        backgroundColor: isDark ? Colors.black : Colors.white,
         leading: Padding(
           padding: const EdgeInsets.all(16.0),
           child: GestureDetector(
@@ -63,17 +61,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FaIcon(
-                  FontAwesomeIcons.chevronLeft,
-                  size: Sizes.size18,
-                  color: isDark ? Colors.white : Colors.black,
-                ),
+                FaIcon(FontAwesomeIcons.chevronLeft, size: Sizes.size18),
                 Gaps.h5,
                 Text(
                   "Back",
                   style: TextStyle(
                     fontSize: Sizes.size20,
-                    color: isDark ? Colors.white : Colors.black,
                   ),
                 ),
               ],
@@ -81,12 +74,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         leadingWidth: 100,
-        title: Text(
+        title: const Text(
           'Settings',
           style: TextStyle(
             fontSize: Sizes.size20,
             fontWeight: FontWeight.w700,
-            color: isDark ? Colors.white : Colors.black,
           ),
         ),
         shape: Border(
@@ -105,17 +97,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             value: context.watch<ConfigViewModel>().darkmode,
             onChanged: (value) =>
                 context.read<ConfigViewModel>().setDarkmode(value),
-            title: Text(
+            title: const Text(
               "Dark Mode",
               style: TextStyle(
                 fontSize: Sizes.size18,
-                color: isDark ? Colors.white : Colors.black,
               ),
             ),
             secondary: Icon(
-              isDark ? Icons.dark_mode_outlined : Icons.sunny,
-              color: isDark ? Colors.white : Colors.black,
-            ),
+                isDark ? Icons.dark_mode_outlined : Icons.light_mode_outlined),
           ),
           ListTileButton(
             leadingIcon: Icons.person_add_outlined,
@@ -138,21 +127,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             leadingIcon: FontAwesomeIcons.lifeRing,
             text: "Help",
           ),
-          AboutListTile(
+          const AboutListTile(
             icon: FaIcon(
               Icons.info_outline,
               size: Sizes.size32,
-              color: isDark ? Colors.white : Colors.black,
             ),
             applicationName: "",
             applicationVersion: "1.0",
             applicationLegalese: "Don't copy me.",
-            child: Text(
-              'About',
-              style: TextStyle(
-                color: isDark ? Colors.white : Colors.black,
-              ), // ListTile의 기본 텍스트 색 변경
-            ),
           ),
           Divider(
             thickness: 0.5,

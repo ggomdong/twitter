@@ -85,7 +85,6 @@ class _ActivityScreenState extends State<ActivityScreen>
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
-        backgroundColor: isDark ? Colors.black : Colors.white,
         appBar: AppBar(
           toolbarHeight: Sizes.size56,
           backgroundColor: isDark ? Colors.black : Colors.white,
@@ -94,7 +93,6 @@ class _ActivityScreenState extends State<ActivityScreen>
             style: TextStyle(
               fontSize: Sizes.size36,
               fontWeight: FontWeight.w700,
-              color: isDark ? Colors.white : Colors.black,
             ),
           ),
           actions: [
@@ -160,7 +158,6 @@ class _ActivityScreenState extends State<ActivityScreen>
               ),
               child: Divider(
                 thickness: 0.5,
-                color: Colors.grey.shade500,
               ),
             );
           },
@@ -256,7 +253,6 @@ class _ActivityScreenState extends State<ActivityScreen>
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.01,
                           height: 1.2,
-                          color: isDark ? Colors.white : Colors.black,
                         ),
                       ),
                       Gaps.h5,
@@ -306,7 +302,6 @@ class _ActivityScreenState extends State<ActivityScreen>
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.01,
                       height: 0.8,
-                      color: isDark ? Colors.white : Colors.black,
                     ),
                   ),
                 ],

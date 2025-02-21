@@ -65,7 +65,6 @@ class _SearchScreenState extends State<SearchScreen> {
     return GestureDetector(
       onTap: _onScaffoldTap,
       child: Scaffold(
-        backgroundColor: isDark ? Colors.black : Colors.white,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: isDark ? Colors.black : Colors.white,
@@ -78,7 +77,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 style: TextStyle(
                   fontSize: Sizes.size32,
                   fontWeight: FontWeight.w700,
-                  color: isDark ? Colors.white : Colors.black,
                 ),
               ),
               Gaps.v12,
@@ -91,7 +89,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 style: TextStyle(
                   color: isDark ? Colors.white : Colors.black,
                 ),
-                itemColor: Colors.grey,
               ),
             ],
           ),
@@ -105,13 +102,11 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               child: Divider(
                 thickness: 0.5,
-                color: Colors.grey.shade500,
               ),
             );
           },
           itemBuilder: (context, index) {
             return ListTile(
-              tileColor: isDark ? Colors.black : Colors.white,
               contentPadding: EdgeInsets.symmetric(
                 horizontal: Sizes.size16,
                 vertical: Sizes.size1,
@@ -137,7 +132,6 @@ class _SearchScreenState extends State<SearchScreen> {
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.01,
                           height: 1.2,
-                          color: isDark ? Colors.white : Colors.black,
                         ),
                       ),
                       Gaps.h5,
@@ -173,8 +167,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.01,
                       height: 0.8,
-                      color:
-                          isDark ? Colors.grey.shade400 : Colors.grey.shade700,
                     ),
                   ),
                 ],
@@ -205,11 +197,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           fontSize: Sizes.size16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.01,
-                          color: users[index].isFollowed
-                              ? Colors.white
-                              : isDark
-                                  ? Colors.grey.shade500
-                                  : Colors.grey.shade700,
+                          color: users[index].isFollowed ? Colors.white : null,
                         ),
                       ),
                     ),
