@@ -146,4 +146,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Firebase
+lib/firebase_options.dart
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,linux
