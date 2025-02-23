@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/views/authentication/widgets/form_button.dart';
+import 'package:twitter/views/authentication_twitter/widgets/form_button.dart';
 import 'package:twitter/views/common/common_app_bar.dart';
 import 'package:twitter/views/onboarding/widgets/horizontal_interests.dart';
 import 'package:twitter/utils.dart';

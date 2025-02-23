@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/views/widgets/listtile_button.dart';
+import 'package:twitter/views/users/widgets/listtile_button.dart';
 import 'package:twitter/utils.dart';
 
 class PrivacyScreen extends ConsumerStatefulWidget {

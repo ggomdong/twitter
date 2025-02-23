@@ -5,8 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/view_models/config_vm.dart';
-import 'package:twitter/views/widgets/listtile_button.dart';
+import 'package:twitter/repos/authentication_repo.dart';
+import 'package:twitter/view_models/settings_vm.dart';
+import 'package:twitter/views/users/widgets/listtile_button.dart';
 import 'package:twitter/utils.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -16,7 +17,7 @@ class SettingsScreen extends ConsumerWidget {
     context.go("/settings/privacy");
   }
 
-  void _onShowModal(BuildContext context) {
+  void _onShowModal(BuildContext context, WidgetRef ref) {
     showCupertinoDialog(
       context: context,
       builder: (context) => CupertinoAlertDialog(
@@ -28,7 +29,10 @@ class SettingsScreen extends ConsumerWidget {
             child: const Text("No"),
           ),
           CupertinoDialogAction(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              ref.read(authRepo).signOut();
+              context.go("/");
+            },
             isDestructiveAction: true,
             child: const Text("Yes"),
           ),
@@ -88,9 +92,9 @@ class SettingsScreen extends ConsumerWidget {
             contentPadding: EdgeInsets.symmetric(
               horizontal: Sizes.size20,
             ),
-            value: ref.watch(configProvider).darkMode,
+            value: ref.watch(settingsProvider).darkMode,
             onChanged: (value) =>
-                ref.read(configProvider.notifier).setDarkMode(value),
+                ref.read(settingsProvider.notifier).setDarkMode(value),
             title: const Text(
               "Dark Mode",
               style: TextStyle(
@@ -141,7 +145,7 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ),
             textColor: Colors.blue,
-            onTap: () => _onShowModal(context),
+            onTap: () => _onShowModal(context, ref),
           ),
         ],
       ),

@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/views/authentication/widgets/form_button.dart';
+import 'package:twitter/views/authentication_twitter/widgets/form_button.dart';
 import 'package:twitter/views/common/common_app_bar.dart';
 import 'package:twitter/views/onboarding/interests_screen.dart';
 import 'package:twitter/utils.dart';

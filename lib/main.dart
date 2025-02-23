@@ -1,14 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/repos/config_repo.dart';
-import 'package:twitter/view_models/config_vm.dart';
+import 'package:twitter/firebase_options.dart';
+import 'package:twitter/repos/settings_repo.dart';
+import 'package:twitter/view_models/settings_vm.dart';
 import 'package:twitter/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await SystemChrome.setPreferredOrientations(
     [
@@ -17,13 +23,13 @@ void main() async {
   );
 
   final preferences = await SharedPreferences.getInstance();
-  final repository = ConfigRepository(preferences);
+  final repository = SettingsRepository(preferences);
 
   runApp(
     ProviderScope(
       overrides: [
-        configProvider.overrideWith(
-          () => ConfigViewModel(repository),
+        settingsProvider.overrideWith(
+          () => SettingsViewModel(repository),
         ),
       ],
       child: const App(),
@@ -36,17 +42,17 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDark = ref.watch(configProvider).darkMode;
+    final isDark = ref.watch(settingsProvider).darkMode;
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
       debugShowCheckedModeBanner: false,
-      title: 'Twitter Clone',
+      title: 'Threads Clone',
       themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white,
-        primaryColor: const Color(0xFF5098E9),
+        primaryColor: const Color(0xFF0B64E0),
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Color(0xFF5098E9),
         ),

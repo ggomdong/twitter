@@ -4,181 +4,260 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
-import 'package:twitter/views/authentication/create_screen.dart';
-import 'package:twitter/views/authentication/login_screen.dart';
-import 'package:twitter/views/authentication/widgets/auth_button.dart';
-import 'package:twitter/views/common/common_app_bar.dart';
 import 'package:twitter/utils.dart';
+import 'package:twitter/view_models/sign_up_view_model.dart';
+import 'package:twitter/views/authentication/widgets/form_button.dart';
 
-class SignUpScreen extends ConsumerWidget {
-  static const routeURL = "/";
+class SignUpScreen extends ConsumerStatefulWidget {
+  static const routeURL = "/signUp";
   static const routeName = "signUp";
   const SignUpScreen({super.key});
 
-  void _onCreateTap(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const CreateScreen(
-          name: "",
-          email: "",
-          birthday: "",
-          isSignup: false,
-        ),
-      ),
-    );
+  @override
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _email = "";
+  String _password = "";
+  String _confirmPassword = "";
+  bool _obscurePw1 = true;
+  bool _obscurePw2 = true;
+
+  // Keyboard 외의 영역 클릭시 Keyboard가 사라지도록 처리
+  void _onScaffoldTap() {
+    FocusScope.of(context).unfocus();
   }
 
-  void _onLoginTap(BuildContext context) {
-    context.pushNamed(LoginScreen.routeName);
+  // email 유효성 체크
+  bool _isEmailValid(String email) {
+    final regExp = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    return regExp.hasMatch(email);
+  }
+
+  // password 유효성 체크(자리수)
+  bool _isPasswordValid(String password) {
+    return password.length >= 8;
+  }
+
+  // password 유효성 체크(일치)
+  bool _isPasswordMatch() {
+    return _password == _confirmPassword;
+  }
+
+  // password 비식별 처리 토글
+  void _toggleObscurePw1() {
+    _obscurePw1 = !_obscurePw1;
+    setState(() {});
+  }
+
+  void _toggleObscurePw2() {
+    _obscurePw2 = !_obscurePw2;
+    setState(() {});
+  }
+
+  void _onSubmitForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      ref.read(signUpForm.notifier).state = {
+        "email": _email,
+        "password": _password
+      };
+      ref.read(signUpProvider.notifier).signUp(context);
+    }
+  }
+
+  void _onLogInTap() {
+    context.pop();
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final bool isDark = isDarkMode(ref);
-    return Scaffold(
-      appBar: CommonAppBar(type: LeadingType.none),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Sizes.size32,
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _onScaffoldTap,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          toolbarHeight: Sizes.size96 + Sizes.size60,
+          flexibleSpace: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FaIcon(
+                FontAwesomeIcons.squareThreads,
+                size: Sizes.size96,
+              ),
+            ],
+          ),
         ),
-        child: Column(
-          children: [
-            Gaps.v96,
-            Gaps.v48,
-            Text(
-              "See what's happening in the world right now.",
-              style: TextStyle(
-                fontSize: Sizes.size28 + Sizes.size2,
-                fontWeight: FontWeight.w900,
-              ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: Sizes.size16,
             ),
-            Gaps.v96,
-            Gaps.v64,
-            AuthButton(
-              icon: FaIcon(
-                FontAwesomeIcons.google,
-                size: Sizes.size24,
-              ),
-              text: "Continue with Google",
-            ),
-            Gaps.v14,
-            AuthButton(
-              icon: FaIcon(
-                FontAwesomeIcons.apple,
-                size: Sizes.size24,
-              ),
-              text: "Continue with Apple",
-            ),
-            Gaps.v20,
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  color: Colors.grey.shade400,
-                ),
-                Container(
-                  color: isDark
-                      ? Colors.black
-                      : Colors.white, // 배경색 추가로 선 위에 텍스트가 읽기 쉽게 설정
-                  padding: EdgeInsets.symmetric(
-                    horizontal: Sizes.size10,
-                  ),
-                  child: Text(
-                    "or",
-                    style: TextStyle(
-                      fontSize: Sizes.size12,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Gaps.v3,
-            GestureDetector(
-              onTap: () => _onCreateTap(context),
-              child: AuthButton(
-                isInverted: true,
-                text: "Create account",
-              ),
-            ),
-            Gaps.v28,
-            RichText(
-              text: TextSpan(
-                text: "By signing up, you agree to our",
-                style: TextStyle(
-                  color: isDark ? null : Colors.grey.shade800,
-                  fontSize: Sizes.size16 + Sizes.size1,
-                ),
+            child: Form(
+              key: _formKey,
+              child: Column(
                 children: [
-                  TextSpan(
-                    text: " Terms",
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                  Gaps.v96,
+                  Gaps.v32,
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: 'Email',
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 2,
+                        ),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter an email';
+                      }
+                      if (!_isEmailValid(value)) {
+                        return 'Invalid email';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) => setState(() => _email = value),
+                    onSaved: (value) {
+                      if (value != null) {
+                        _email = value;
+                      }
+                    },
                   ),
-                  TextSpan(
-                    text: ",",
-                    style: TextStyle(
-                      color: isDark ? null : Colors.grey.shade800,
+                  Gaps.v16,
+                  TextFormField(
+                    obscureText: _obscurePw1,
+                    decoration: InputDecoration(
+                      suffix: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                            onTap: _toggleObscurePw1,
+                            child: FaIcon(
+                              _obscurePw1
+                                  ? FontAwesomeIcons.eye
+                                  : FontAwesomeIcons.eyeSlash,
+                              color: Colors.grey.shade500,
+                              size: Sizes.size20,
+                            ),
+                          ),
+                        ],
+                      ),
+                      border: const OutlineInputBorder(),
+                      labelText: 'Password',
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: Sizes.size2,
+                        ),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter a password';
+                      }
+                      if (!_isPasswordValid(value)) {
+                        return 'Password must be at least 8 characters';
+                      }
+                      if (!_isPasswordMatch()) {
+                        return 'Password must be matched';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) => setState(() => _password = value),
+                    onSaved: (value) {
+                      if (value != null) {
+                        _password = value;
+                      }
+                    },
                   ),
-                  TextSpan(
-                    text: " Privacy Policy",
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                  Gaps.v16,
+                  TextFormField(
+                    obscureText: _obscurePw2,
+                    decoration: InputDecoration(
+                      suffix: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                            onTap: _toggleObscurePw2,
+                            child: FaIcon(
+                              _obscurePw2
+                                  ? FontAwesomeIcons.eye
+                                  : FontAwesomeIcons.eyeSlash,
+                              color: Colors.grey.shade500,
+                              size: Sizes.size20,
+                            ),
+                          ),
+                        ],
+                      ),
+                      border: const OutlineInputBorder(),
+                      labelText: 'Confirm Password',
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: Sizes.size2,
+                        ),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter a password';
+                      }
+                      if (!_isPasswordValid(value)) {
+                        return 'Password must be at least 8 characters';
+                      }
+                      if (!_isPasswordMatch()) {
+                        return 'Password must be matched';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) =>
+                        setState(() => _confirmPassword = value),
+                    onSaved: (value) {
+                      if (value != null) {
+                        _confirmPassword = value;
+                      }
+                    },
                   ),
-                  TextSpan(
-                    text: ", and",
-                    style: TextStyle(
-                      color: isDark ? null : Colors.grey.shade800,
-                    ),
-                  ),
-                  TextSpan(
-                    text: " Cookie Use",
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ".",
-                    style: TextStyle(
-                      color: isDark ? null : Colors.grey.shade800,
-                    ),
+                  Gaps.v20,
+                  FormButton(
+                    disabled: !(_isEmailValid(_email) &&
+                        _isPasswordValid(_password) &&
+                        _isPasswordMatch() &&
+                        !ref.watch(signUpProvider).isLoading),
+                    text: "Sign Up",
+                    buttonSize: ButtonSize.large,
+                    buttonType: ButtonType.main,
+                    onTap: _onSubmitForm,
                   ),
                 ],
               ),
             ),
-          ],
+          ),
         ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Sizes.size32,
-          vertical: Sizes.size48,
-        ),
-        child: Row(
-          children: [
-            const Text(
-              'Have an account already?',
-              style: TextStyle(
-                fontSize: Sizes.size14,
-              ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: Sizes.size48,
+          ),
+          child: Container(
+            padding: EdgeInsets.all(
+              Sizes.size20,
             ),
-            Gaps.h5,
-            GestureDetector(
-              onTap: () => _onLoginTap(context),
-              child: Text(
-                'Log in',
-                style: TextStyle(
-                  fontSize: Sizes.size14,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
+            child: FormButton(
+              disabled: false,
+              text: "Log in",
+              buttonSize: ButtonSize.large,
+              buttonType: ButtonType.sub,
+              onTap: _onLogInTap,
             ),
-          ],
+          ),
         ),
       ),
     );

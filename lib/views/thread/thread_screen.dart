@@ -8,7 +8,7 @@ import 'package:twitter/models/post_model.dart';
 import 'package:twitter/utils.dart';
 
 class ThreadScreen extends ConsumerStatefulWidget {
-  static const routeURL = "/";
+  static const routeURL = "/home";
   static const routeName = "home";
   const ThreadScreen({super.key});
 

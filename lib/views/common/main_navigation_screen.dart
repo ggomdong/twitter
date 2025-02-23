@@ -6,7 +6,7 @@ import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/views/activity/activity_screen.dart';
 import 'package:twitter/views/common/widgets/nav_tab.dart';
 import 'package:twitter/views/search/search_screen.dart';
-import 'package:twitter/views/settings_screen.dart';
+import 'package:twitter/views/users/settings_screen.dart';
 import 'package:twitter/views/thread/thread_screen.dart';
 import 'package:twitter/views/thread/widgets/thread_post.dart';
 import 'package:twitter/views/users/user_profile_screen.dart';
@@ -29,7 +29,7 @@ class MainNavigationScreen extends ConsumerStatefulWidget {
 
 class MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
   final List<String> _tabs = [
-    "",
+    "home",
     "search",
     "xx",
     "activity",

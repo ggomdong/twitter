@@ -1,7 +1,7 @@
-class ConfigModel {
+class SettingsModel {
   bool darkMode;
 
-  ConfigModel({
+  SettingsModel({
     required this.darkMode,
   });
 }
