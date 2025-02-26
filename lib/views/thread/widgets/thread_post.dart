@@ -4,8 +4,10 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
+import 'package:twitter/view_models/upload_thread_view_model.dart';
 import 'package:twitter/views/photo/camera_screen.dart';
 import 'package:twitter/utils.dart';
 
@@ -64,8 +66,31 @@ class ThreadPostState extends ConsumerState<ThreadPost> {
     return;
   }
 
-  void _onPostTap() {
+  void _onPostTap() async {
     if (_thread.isEmpty) return;
+    // 로딩 표시
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Center(
+        child: CircularProgressIndicator.adaptive(),
+      ),
+    );
+
+    // 업로드 시작
+    await ref
+        .read(uploadThreadProvider.notifier)
+        .uploadThread(_selectedPhotos, _thread, context);
+
+    // 로딩 대화상자가 이미 닫혔는지 확인
+    if (Navigator.canPop(context)) {
+      Navigator.of(context).pop(); // 로딩 대화상자 닫기
+    }
+
+    // 모달 닫기 (만약 uploadThread 내에서 닫지 않았다면)
+    if (Navigator.canPop(context)) {
+      Navigator.of(context).pop(); // 모달 닫기
+    }
   }
 
   Widget _buildPhotoPreview() {

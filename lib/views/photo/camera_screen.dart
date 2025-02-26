@@ -161,7 +161,7 @@ class CameraScreenState extends ConsumerState<CameraScreen>
             Sizes.size36,
           )),
         ),
-        child: !_hasPermission || !_isCameraInitialized
+        child: !_hasPermission
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -179,7 +179,8 @@ class CameraScreenState extends ConsumerState<CameraScreen>
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    CameraPreview(_cameraController!),
+                    if (!_noCamera && _isCameraInitialized)
+                      CameraPreview(_cameraController!),
                     Positioned(
                       top: Sizes.size16,
                       left: Sizes.size6,
@@ -194,81 +195,82 @@ class CameraScreenState extends ConsumerState<CameraScreen>
                         ),
                       ),
                     ),
-                    Positioned(
-                      bottom: Sizes.size44,
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: Sizes.size20,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              child: IconButton(
-                                color: _flashMode == FlashMode.off
-                                    ? Colors.amber.shade200
-                                    : Colors.white,
-                                onPressed: () => _setFlashMode(FlashMode.off),
-                                icon: const Icon(
-                                  Icons.bolt,
-                                  size: Sizes.size32,
+                    if (!_noCamera)
+                      Positioned(
+                        bottom: Sizes.size80,
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: Sizes.size20,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                child: IconButton(
+                                  color: _flashMode == FlashMode.off
+                                      ? Colors.amber.shade200
+                                      : Colors.white,
+                                  onPressed: () => _setFlashMode(FlashMode.off),
+                                  icon: const Icon(
+                                    Icons.bolt,
+                                    size: Sizes.size32,
+                                  ),
                                 ),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: _takePicture,
-                              child: SizedBox(
-                                child: Stack(
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    Positioned(
-                                      child: Container(
-                                        width: 88,
-                                        height: 88,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 4,
-                                      left: 4,
-                                      child: Container(
-                                        width: 80,
-                                        height: 80,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border.all(
-                                            color: isDark
-                                                ? Colors.white
-                                                : Colors.black,
-                                            width: 5,
+                              GestureDetector(
+                                onTap: _takePicture,
+                                child: SizedBox(
+                                  child: Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      Positioned(
+                                        child: Container(
+                                          width: 88,
+                                          height: 88,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
                                           ),
-                                          shape: BoxShape.circle,
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      Positioned(
+                                        top: 4,
+                                        left: 4,
+                                        child: Container(
+                                          width: 80,
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border.all(
+                                              color: isDark
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              width: 5,
+                                            ),
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              child: IconButton(
-                                color: Colors.white,
-                                onPressed: _toggleSelfieMode,
-                                icon: const FaIcon(
-                                  FontAwesomeIcons.repeat,
+                              Container(
+                                alignment: Alignment.center,
+                                child: IconButton(
+                                  color: Colors.white,
+                                  onPressed: _toggleSelfieMode,
+                                  icon: const FaIcon(
+                                    FontAwesomeIcons.repeat,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    )
+                      )
                   ],
                 ),
               ),
