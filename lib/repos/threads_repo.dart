@@ -32,16 +32,39 @@ class ThreadsRepository {
     await _db.collection("threads").add(threadData);
   }
 
+  // thread_screen 에 표현되는 user 정보를 함께 추출
   Stream<List<ThreadModel>> watchThreads() {
     return _db
         .collection("threads")
         .orderBy("createdAt", descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map(
-              (doc) => ThreadModel.fromJson(doc.data()),
-            )
-            .toList());
+        .asyncMap(
+      (snapshot) async {
+        List<ThreadModel> threads = [];
+
+        for (var doc in snapshot.docs) {
+          final data = doc.data();
+          final creatorUid = data["creatorUid"] ?? "";
+          String creator = "";
+
+          if (creatorUid.isNotEmpty) {
+            final userDoc = await _db.collection("users").doc(creatorUid).get();
+            final userData = userDoc.data();
+            if (userDoc.exists &&
+                userData != null &&
+                userData.containsKey("name")) {
+              creator = userData["name"] as String? ?? "anonymous";
+            }
+          }
+
+          threads.add(ThreadModel.fromJson({
+            ...data,
+            "creator": creator,
+          }));
+        }
+        return threads;
+      },
+    );
   }
 }
 

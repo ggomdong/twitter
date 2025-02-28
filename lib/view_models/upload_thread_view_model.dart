@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:twitter/models/thread_model.dart';
 import 'package:twitter/repos/authentication_repo.dart';
 import 'package:twitter/repos/threads_repo.dart';
@@ -27,7 +26,7 @@ class UploadThreadViewModel extends AsyncNotifier<void> {
           fileUrls: [],
           creatorUid: user!.uid,
           likes: 0,
-          comments: 0,
+          replies: 0,
           createdAt: DateTime.now().millisecondsSinceEpoch,
           creator: user.displayName ?? "anonymous",
         ),

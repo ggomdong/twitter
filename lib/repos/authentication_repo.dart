@@ -11,8 +11,8 @@ class AuthenticationRepository {
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
   // Firebase 프로젝트의 User 계정 생성
-  Future<void> emailSignUp(String email, String password) async {
-    await _firebaseAuth.createUserWithEmailAndPassword(
+  Future<UserCredential> emailSignUp(String email, String password) async {
+    return _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -27,6 +27,10 @@ class AuthenticationRepository {
       email: email,
       password: password,
     );
+  }
+
+  Future<void> githubSignIn() async {
+    await _firebaseAuth.signInWithProvider(GithubAuthProvider());
   }
 }
 

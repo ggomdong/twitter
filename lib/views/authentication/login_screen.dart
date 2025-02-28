@@ -6,7 +6,9 @@ import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/utils.dart';
 import 'package:twitter/view_models/login_view_model.dart';
+import 'package:twitter/view_models/social_auth_view_model.dart';
 import 'package:twitter/views/authentication/sign_up_screen.dart';
+import 'package:twitter/views/authentication/widgets/auth_button.dart';
 import 'package:twitter/views/authentication/widgets/form_button.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -153,6 +155,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     buttonSize: ButtonSize.large,
                     buttonType: ButtonType.main,
                     onTap: _onSubmitForm,
+                  ),
+                  Gaps.v32,
+                  GestureDetector(
+                    onTap: () => ref
+                        .read(socialAuthProvider.notifier)
+                        .githubSignIn(context),
+                    child: AuthButton(
+                      icon: FaIcon(
+                        FontAwesomeIcons.github,
+                        size: Sizes.size24,
+                      ),
+                      text: "Continue with Github",
+                    ),
                   ),
                 ],
               ),

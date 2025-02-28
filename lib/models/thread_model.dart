@@ -3,7 +3,7 @@ class ThreadModel {
   final List<String> fileUrls;
   final String creatorUid;
   final int likes;
-  final int comments;
+  final int replies;
   final int createdAt;
   final String creator;
 
@@ -12,7 +12,7 @@ class ThreadModel {
     required this.fileUrls,
     required this.creatorUid,
     required this.likes,
-    required this.comments,
+    required this.replies,
     required this.createdAt,
     required this.creator,
   });
@@ -25,7 +25,7 @@ class ThreadModel {
             [],
         creatorUid = json["creatorUid"],
         likes = json["likes"],
-        comments = json["comments"],
+        replies = json["replies"],
         createdAt = json["createdAt"],
         creator = json["creator"];
 
@@ -35,7 +35,7 @@ class ThreadModel {
       "fileUrls": fileUrls,
       "creatorUid": creatorUid,
       "likes": likes,
-      "comments": comments,
+      "replies": replies,
       "createdAt": createdAt,
       "creator": creator,
     };

@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/firebase_options.dart';
 import 'package:twitter/repos/settings_repo.dart';
-import 'package:twitter/view_models/settings_vm.dart';
+import 'package:twitter/view_models/settings_view_model.dart';
 import 'package:twitter/router.dart';
 
 void main() async {

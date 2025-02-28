@@ -148,5 +148,9 @@ $RECYCLE.BIN/
 
 # Firebase
 lib/firebase_options.dart
+node_modules/
+.firebaserc
+.firebase.json
+.firepit-log.txt
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,linux

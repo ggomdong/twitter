@@ -5,7 +5,6 @@ import 'package:twitter/constants/gaps.dart';
 import 'package:twitter/constants/sizes.dart';
 import 'package:twitter/view_models/thread_view_model.dart';
 import 'package:twitter/views/thread/widgets/thread_modal.dart';
-import 'package:twitter/models/post_model.dart';
 import 'package:twitter/utils.dart';
 
 class ThreadScreen extends ConsumerStatefulWidget {
@@ -18,10 +17,6 @@ class ThreadScreen extends ConsumerStatefulWidget {
 }
 
 class ThreadScreenState extends ConsumerState<ThreadScreen> {
-  // 최신 Post가 상단에 오도록 하기 위해, faker 패키지로 랜덤 생성한 posts를 elapsedTime으로 정렬
-  final List<Post> posts = List.generate(10, (index) => Post.generate())
-    ..sort((a, b) => a.elapsedMinutes.compareTo(b.elapsedMinutes));
-
   void _onThreadsModalTap() async {
     await showModalBottomSheet(
       context: context,
@@ -62,11 +57,8 @@ class ThreadScreenState extends ConsumerState<ThreadScreen> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    // if (index >= threads.length) {
-                    //   return SizedBox.shrink();
-                    // }
-
                     final thread = threads[index];
+
                     return Column(
                       children: [
                         Padding(
@@ -85,13 +77,12 @@ class ThreadScreenState extends ConsumerState<ThreadScreen> {
                                         height: 40,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Colors.blue,
-                                          // image: DecorationImage(
-                                          //   image: NetworkImage(
-                                          //     thread.,
-                                          //   ),
-                                          //   fit: BoxFit.cover,
-                                          // ),
+                                          // color: Colors.blue,
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                                loadAvatar(thread.creatorUid)),
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                       Positioned(
@@ -127,15 +118,15 @@ class ThreadScreenState extends ConsumerState<ThreadScreen> {
                                     ],
                                   ),
                                   Gaps.v10,
-                                  Container(
-                                    width: 2,
-                                    height: thread.fileUrls.isNotEmpty
-                                        ? Sizes.size96 +
-                                            Sizes.size96 +
-                                            Sizes.size72
-                                        : Sizes.size64,
-                                    color: Colors.grey.shade300,
-                                  ),
+                                  // Container(
+                                  //   width: 2,
+                                  //   height: thread.fileUrls.isNotEmpty
+                                  //       ? Sizes.size96 +
+                                  //           Sizes.size96 +
+                                  //           Sizes.size72
+                                  //       : Sizes.size64,
+                                  //   color: Colors.grey.shade300,
+                                  // ),
                                 ],
                               ),
                               Gaps.h10,
@@ -173,15 +164,16 @@ class ThreadScreenState extends ConsumerState<ThreadScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            // Text(
-                                            //   convertTime(post.elapsedMinutes),
-                                            //   style: TextStyle(
-                                            //     fontSize: Sizes.size16,
-                                            //     fontWeight: FontWeight.w400,
-                                            //     color: Colors.grey.shade500,
-                                            //   ),
-                                            // ),
-                                            // Gaps.h14,
+                                            Text(
+                                              calculateTimeByCreatedAt(
+                                                  thread.createdAt),
+                                              style: TextStyle(
+                                                fontSize: Sizes.size16,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.grey.shade500,
+                                              ),
+                                            ),
+                                            Gaps.h14,
                                             GestureDetector(
                                               onTap: _onThreadsModalTap,
                                               child: Text(
@@ -239,8 +231,12 @@ class ThreadScreenState extends ConsumerState<ThreadScreen> {
                                     Row(
                                       children: [
                                         FaIcon(FontAwesomeIcons.heart),
+                                        Gaps.h10,
+                                        Text("${thread.likes}"),
                                         Gaps.h20,
                                         FaIcon(FontAwesomeIcons.comment),
+                                        Gaps.h10,
+                                        Text("${thread.replies}"),
                                         Gaps.h20,
                                         FaIcon(FontAwesomeIcons.arrowsRotate),
                                         Gaps.h20,
@@ -254,162 +250,162 @@ class ThreadScreenState extends ConsumerState<ThreadScreen> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: Sizes.size16,
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: thread.comments == 0
-                                    ? null
-                                    : thread.comments == 1
-                                        ? Stack(
-                                            clipBehavior: Clip.none,
-                                            children: [
-                                              Positioned(
-                                                top: 5,
-                                                left: 5,
-                                                child: CircleAvatar(
-                                                  radius: 15,
-                                                  foregroundColor: Colors.green,
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        : thread.comments == 2
-                                            ? Stack(
-                                                clipBehavior: Clip.none,
-                                                children: [
-                                                  Positioned(
-                                                    top: 10,
-                                                    left: 3,
-                                                    child: Container(
-                                                      width: 20,
-                                                      height: 20,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: Colors.green,
-                                                        // image: DecorationImage(
-                                                        //   image: NetworkImage(
-                                                        //     post.repliesAvatars[
-                                                        //         0],
-                                                        //   ),
-                                                        //   fit: BoxFit.cover,
-                                                        // ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                    top: 6,
-                                                    left: 15,
-                                                    child: Container(
-                                                      width: 28,
-                                                      height: 28,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color: isDark
-                                                              ? Colors.black
-                                                              : Colors.white,
-                                                          width: 4,
-                                                        ),
-                                                        shape: BoxShape.circle,
-                                                        color: Colors.red,
-                                                        // image: DecorationImage(
-                                                        //   image: NetworkImage(
-                                                        //     post.repliesAvatars[
-                                                        //         1],
-                                                        //   ),
-                                                        //   fit: BoxFit.cover,
-                                                        // ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            : Stack(
-                                                clipBehavior: Clip.none,
-                                                children: [
-                                                  Positioned(
-                                                    top: 10,
-                                                    left: 0,
-                                                    child: CircleAvatar(
-                                                      radius: 9,
-                                                      // backgroundImage:
-                                                      //     NetworkImage(
-                                                      //   post.repliesAvatars[0],
-                                                      // ),
-                                                      // onBackgroundImageError:
-                                                      //     (exception,
-                                                      //         stackTrace) {
-                                                      //   debugPrint(
-                                                      //       "Image load failed: $exception");
-                                                      // },
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                    top: 28,
-                                                    left: 17,
-                                                    child: CircleAvatar(
-                                                      radius: 7,
-                                                      // backgroundImage:
-                                                      //     NetworkImage(
-                                                      //   post.repliesAvatars[1],
-                                                      // ),
-                                                      // onBackgroundImageError:
-                                                      //     (exception,
-                                                      //         stackTrace) {
-                                                      //   debugPrint(
-                                                      //       "Image load failed: $exception");
-                                                      // },
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                    top: 0,
-                                                    left: 21,
-                                                    child: CircleAvatar(
-                                                      radius: 11,
-                                                      // backgroundImage:
-                                                      //     NetworkImage(
-                                                      //   post.repliesAvatars[2],
-                                                      // ),
-                                                      // onBackgroundImageError:
-                                                      //     (exception,
-                                                      //         stackTrace) {
-                                                      //   debugPrint(
-                                                      //       "Image load failed: $exception");
-                                                      // },
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                              ),
-                              Gaps.h10,
-                              Expanded(
-                                child: Column(children: [
-                                  DefaultTextStyle(
-                                    style: TextStyle(
-                                      fontSize: Sizes.size16 + Sizes.size1,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey.shade500,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Text("${thread.comments} comments"),
-                                        Gaps.h5,
-                                        Text("·"),
-                                        Gaps.h5,
-                                        Text("${thread.likes} likes"),
-                                      ],
-                                    ),
-                                  ),
-                                ]),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //     horizontal: Sizes.size16,
+                        //   ),
+                        //   child: Row(
+                        //     children: [
+                        //       SizedBox(
+                        //         width: 40,
+                        //         height: 40,
+                        //         child: thread.replies == 0
+                        //             ? null
+                        //             : thread.replies == 1
+                        //                 ? Stack(
+                        //                     clipBehavior: Clip.none,
+                        //                     children: [
+                        //                       Positioned(
+                        //                         top: 5,
+                        //                         left: 5,
+                        //                         child: CircleAvatar(
+                        //                           radius: 15,
+                        //                           foregroundColor: Colors.green,
+                        //                         ),
+                        //                       ),
+                        //                     ],
+                        //                   )
+                        //                 : thread.replies == 2
+                        //                     ? Stack(
+                        //                         clipBehavior: Clip.none,
+                        //                         children: [
+                        //                           Positioned(
+                        //                             top: 10,
+                        //                             left: 3,
+                        //                             child: Container(
+                        //                               width: 20,
+                        //                               height: 20,
+                        //                               decoration: BoxDecoration(
+                        //                                 shape: BoxShape.circle,
+                        //                                 color: Colors.green,
+                        //                                 // image: DecorationImage(
+                        //                                 //   image: NetworkImage(
+                        //                                 //     post.repliesAvatars[
+                        //                                 //         0],
+                        //                                 //   ),
+                        //                                 //   fit: BoxFit.cover,
+                        //                                 // ),
+                        //                               ),
+                        //                             ),
+                        //                           ),
+                        //                           Positioned(
+                        //                             top: 6,
+                        //                             left: 15,
+                        //                             child: Container(
+                        //                               width: 28,
+                        //                               height: 28,
+                        //                               decoration: BoxDecoration(
+                        //                                 border: Border.all(
+                        //                                   color: isDark
+                        //                                       ? Colors.black
+                        //                                       : Colors.white,
+                        //                                   width: 4,
+                        //                                 ),
+                        //                                 shape: BoxShape.circle,
+                        //                                 color: Colors.red,
+                        //                                 // image: DecorationImage(
+                        //                                 //   image: NetworkImage(
+                        //                                 //     post.repliesAvatars[
+                        //                                 //         1],
+                        //                                 //   ),
+                        //                                 //   fit: BoxFit.cover,
+                        //                                 // ),
+                        //                               ),
+                        //                             ),
+                        //                           ),
+                        //                         ],
+                        //                       )
+                        //                     : Stack(
+                        //                         clipBehavior: Clip.none,
+                        //                         children: [
+                        //                           Positioned(
+                        //                             top: 10,
+                        //                             left: 0,
+                        //                             child: CircleAvatar(
+                        //                               radius: 9,
+                        //                               // backgroundImage:
+                        //                               //     NetworkImage(
+                        //                               //   post.repliesAvatars[0],
+                        //                               // ),
+                        //                               // onBackgroundImageError:
+                        //                               //     (exception,
+                        //                               //         stackTrace) {
+                        //                               //   debugPrint(
+                        //                               //       "Image load failed: $exception");
+                        //                               // },
+                        //                             ),
+                        //                           ),
+                        //                           Positioned(
+                        //                             top: 28,
+                        //                             left: 17,
+                        //                             child: CircleAvatar(
+                        //                               radius: 7,
+                        //                               // backgroundImage:
+                        //                               //     NetworkImage(
+                        //                               //   post.repliesAvatars[1],
+                        //                               // ),
+                        //                               // onBackgroundImageError:
+                        //                               //     (exception,
+                        //                               //         stackTrace) {
+                        //                               //   debugPrint(
+                        //                               //       "Image load failed: $exception");
+                        //                               // },
+                        //                             ),
+                        //                           ),
+                        //                           Positioned(
+                        //                             top: 0,
+                        //                             left: 21,
+                        //                             child: CircleAvatar(
+                        //                               radius: 11,
+                        //                               // backgroundImage:
+                        //                               //     NetworkImage(
+                        //                               //   post.repliesAvatars[2],
+                        //                               // ),
+                        //                               // onBackgroundImageError:
+                        //                               //     (exception,
+                        //                               //         stackTrace) {
+                        //                               //   debugPrint(
+                        //                               //       "Image load failed: $exception");
+                        //                               // },
+                        //                             ),
+                        //                           ),
+                        //                         ],
+                        //                       ),
+                        //       ),
+                        //       Gaps.h10,
+                        //       // Expanded(
+                        //       //   child: Column(children: [
+                        //       //     DefaultTextStyle(
+                        //       //       style: TextStyle(
+                        //       //         fontSize: Sizes.size16 + Sizes.size1,
+                        //       //         fontWeight: FontWeight.w400,
+                        //       //         color: const Color.fromARGB(255, 8, 6, 6),
+                        //       //       ),
+                        //       //       child: Row(
+                        //       //         children: [
+                        //       //           Text("${thread.replies} replies"),
+                        //       //           Gaps.h5,
+                        //       //           Text("·"),
+                        //       //           Gaps.h5,
+                        //       //           Text("${thread.likes} likes"),
+                        //       //         ],
+                        //       //       ),
+                        //       //     ),
+                        //       //   ]),
+                        //       // ),
+                        //     ],
+                        //   ),
+                        // ),
                         Gaps.v20,
                         Container(
                           height: 1,
